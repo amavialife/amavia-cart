@@ -75,6 +75,17 @@ footer{padding:24px 20px;color:var(--muted);border-top:1px solid var(--line);mar
 .price {
   font-size: 14px;
 }
+/* ===== Keep cart visible while scrolling on mobile ===== */
+@media (max-width: 900px) {
+  .side {
+    position: sticky;
+    bottom: 0;
+    background: var(--panel);
+    border-top: 1px solid var(--line);
+    padding-bottom: 12px;
+    z-index: 10;
+  }
+}
 
 </style>
 </head>
