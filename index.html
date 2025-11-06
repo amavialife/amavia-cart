@@ -64,31 +64,31 @@
     // 1) Replace with your Stripe publishable key
     const stripe = Stripe('pk_test_51SJEXjCipX1klfWPOfDWuam9HReReq9a0jLM7XLr6Xm1rb79z6WQEuhFyJnsWHxInexJZjbfFLWgmNrbTOECcEaO00ZtRZVPsb');
 
-    // 2) Products (from your Stripe Price IDs)
-    const PRODUCTS = [
-      {cat:'Packages', name:'Essential Package', price:19900, priceId:'price_1SPv9rCipX1klfWPxf7ZwTuX', desc:'Core set of memorial assets.'},
-      {cat:'Packages', name:'Complete Memorial Package', price:49900, priceId:'price_1SPvAeCipX1klfWPE2yO6sy5', desc:'Obituary, eulogy, program & cards.'},
-      {cat:'Packages', name:'Legacy Package', price:129900, priceId:'price_1SPvD1CipX1klfWPgsL6wunX', desc:'Premium everything, white-glove.'},
+    // 16 products (CAD) — shows in the grid
+const PRODUCTS = [
+  {cat:'Packages', name:'Essential Package', price:19900, priceId:'price_1SPv9rCipX1klfWPxf7ZwTuX', desc:'Core set of memorial assets.'},
+  {cat:'Packages', name:'Complete Memorial Package', price:49900, priceId:'price_1SPvAeCipX1klfWPE2yO6sy5', desc:'Obituary, eulogy, program & cards.'},
+  {cat:'Packages', name:'Legacy Package', price:129900, priceId:'price_1SPvD1CipX1klfWPgsL6wunX', desc:'Premium everything, white-glove.'},
 
-      {cat:'Obituaries', name:'Basic Obituary', price:14900, priceId:'price_1SPupSCipX1klfWPOuzr6NOg', desc:'Thoughtful, polished obituary.'},
-      {cat:'Obituaries', name:'Premium Obituary', price:29900, priceId:'price_1SPuqTCipX1klfWPCK0R9qXL', desc:'Long-form tribute with edits.'},
-      {cat:'Obituaries', name:'Legacy Obituary', price:49900, priceId:'price_1SPuvCCipX1klfWPddKUIzrl', desc:'Executive-level storytelling.'},
-      {cat:'Announcements', name:'Death Announcement', price:6900, priceId:'price_1SPuxHCipX1klfWPgAPF5OCO', desc:'Share essential details with care.'},
+  {cat:'Obituaries', name:'Basic Obituary', price:14900, priceId:'price_1SPupSCipX1klfWPOuzr6NOg', desc:'Thoughtful, polished obituary.'},
+  {cat:'Obituaries', name:'Premium Obituary', price:29900, priceId:'price_1SPuqTCipX1klfWPCK0R9qXL', desc:'Long-form tribute with edits.'},
+  {cat:'Obituaries', name:'Legacy Obituary', price:49900, priceId:'price_1SPuvCCipX1klfWPddKUIzrl', desc:'Executive-level storytelling.'},
+  {cat:'Announcements', name:'Death Announcement', price:6900, priceId:'price_1SPuxHCipX1klfWPgAPF5OCO', desc:'Share essential details with care.'},
 
-      {cat:'Eulogies', name:'Basic Eulogy', price:14900, priceId:'price_1SPuzJCipX1klfWPNp6aBnyp', desc:'Sincere words for the service.'},
-      {cat:'Eulogies', name:'Premium Eulogy', price:29900, priceId:'price_1SPv06CipX1klfWPzziESfSy', desc:'Deeper narrative & revisions.'},
+  {cat:'Eulogies', name:'Basic Eulogy', price:14900, priceId:'price_1SPuzJCipX1klfWPNp6aBnyp', desc:'Sincere words for the service.'},
+  {cat:'Eulogies', name:'Premium Eulogy', price:29900, priceId:'price_1SPv06CipX1klfWPzziESfSy', desc:'Deeper narrative & revisions.'},
 
-      {cat:'Programs', name:'Service Program', price:8900, priceId:'price_1SPv0yCipX1klfWPM7HLQchm', desc:'Designed program for the service.'},
+  {cat:'Programs', name:'Service Program', price:8900, priceId:'price_1SPv0yCipX1klfWPM7HLQchm', desc:'Designed program for the service.'},
 
-      {cat:'Thank You Cards', name:'Cards (10)', price:2500, priceId:'price_1SPv2cCipX1klfWPHnPLLMGQ', desc:'Set of 10 notes.'},
-      {cat:'Thank You Cards', name:'Cards (25)', price:4900, priceId:'price_1SPv5SCipX1klfWPyjIuBASf', desc:'Set of 25 notes.'},
-      {cat:'Thank You Cards', name:'Cards (50)', price:8900, priceId:'price_1SPv6YCipX1klfWPZ0CVyvMQ', desc:'Set of 50 notes.'},
+  {cat:'Thank You Cards', name:'Cards (10)', price:2500, priceId:'price_1SPv2cCipX1klfWPHnPLLMGQ', desc:'Set of 10 notes.'},
+  {cat:'Thank You Cards', name:'Cards (25)', price:4900, priceId:'price_1SPv5SCipX1klfWPyjIuBASf', desc:'Set of 25 notes.'},
+  {cat:'Thank You Cards', name:'Cards (50)', price:8900, priceId:'price_1SPv6YCipX1klfWPZ0CVyvMQ', desc:'Set of 50 notes.'},
 
-      {cat:'Letters', name:'Legacy Letter', price:12900, priceId:'price_1SPv8YCipX1klfWPicJd7gMC', desc:'A keepsake legacy letter.'},
+  {cat:'Letters', name:'Legacy Letter', price:12900, priceId:'price_1SPv8YCipX1klfWPicJd7gMC', desc:'A keepsake legacy letter.'},
 
-      {cat:'Rush', name:'24-Hour Rush Service', price:14900, priceId:'price_1SPvHICipX1klfWP2mwzYcFj', desc:'Delivery in 24 hours.'},
-      {cat:'Rush', name:'Same-Day Rush Service', price:24900, priceId:'price_1SPvIdCipX1klfWPDQuRJENw', desc:'Delivery same day.'},
-    ];
+  {cat:'Rush', name:'24-Hour Rush Service', price:14900, priceId:'price_1SPvHICipX1klfWP2mwzYcFj', desc:'Delivery in 24 hours.'},
+  {cat:'Rush', name:'Same-Day Rush Service', price:24900, priceId:'price_1SPvIdCipX1klfWPDQuRJENw', desc:'Delivery same day.'},
+];
 
     // Read ?product=price_x&qty=1 to pre-add from Carrd buttons
     const params = new URLSearchParams(location.search);
