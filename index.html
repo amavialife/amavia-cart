@@ -207,5 +207,55 @@ footer{padding:24px 20px;color:var(--muted);border-top:1px solid var(--line);mar
 </script>
 </body>
 </html>
+/* ===== Layout fixes ===== */
+
+/* Wider content + balanced columns */
+main { max-width: 1200px; }
+
+/* Two-column layout: give products more space */
+.layout { grid-template-columns: 1.4fr 360px; gap: 24px; }
+
+/* Make the category labels span the full grid width */
+.grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+.category {
+  grid-column: 1 / -1;
+  margin: 22px 0 6px;
+  letter-spacing: .12em;
+}
+
+/* Equal-height product cards so the grid lines up nicely */
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 180px;           /* adjust if you want taller cards */
+  padding: 16px;
+}
+
+/* Keep titles/descriptions from making cards super tall */
+.title { line-height: 1.2; }
+.desc {
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;       /* show up to 2 lines of description */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 34px;            /* keep rows aligned even if text is short */
+}
+
+/* Make the button stick to the bottom and full width */
+.card .btn {
+  margin-top: 10px;
+  align-self: stretch;
+}
+
+/* Sidebar tweaks */
+.side { align-self: start; position: sticky; top: 84px; }
+
+/* Small screens: stack nicely */
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .side   { position: static; }
+}
 
   
