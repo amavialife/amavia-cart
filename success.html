@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thank you · Amavia</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#0b0f0e;color:#e8f0ed;display:grid;place-items:center;min-height:100vh}
+    .panel{max-width:560px;background:#111815;border:1px solid #22332c;border-radius:18px;padding:24px}
+    h1{margin-top:0}
+    .muted{color:#a7b7af}
+    a.btn{display:inline-block;margin-top:12px;background:#9ad0b5;color:#06281b;text-decoration:none;padding:10px 12px;border-radius:12px;font-weight:600}
+    #downloads{margin-top:14px}
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <h1>Thank you</h1>
+    <p class="muted">Your payment was successful. If your download links don’t appear below within a few seconds, please email support@amavia.life with your order email.</p>
+    <div id="downloads">Verifying your purchase…</div>
+    <a class="btn" href="/">Return to store</a>
+  </div>
+
+  <script>
+  (async function () {
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+    const box = document.getElementById('downloads');
+    if (!sessionId) { box.innerText = 'Missing session id.'; return; }
+
+    try {
+      const res = await fetch(`/api/verify-session?session_id=${encodeURIComponent(sessionId)}`);
+      const data = await res.json();
+      if (!data.ok) { box.innerText = data.error || 'Could not verify payment.'; return; }
+      if (!data.downloads.length) { box.innerText = 'No downloadable items found.'; return; }
+      box.innerHTML = data.downloads.map(url => `<p><a class="btn" href="${url}" target="_blank" rel="noopener">Download</a></p>`).join('');
+    } catch (err) {
+      box.innerText = 'Error loading downloads.';
+    }
+  })();
+  </script>
+</body>
+</html>
