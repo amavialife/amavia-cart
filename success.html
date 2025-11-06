@@ -1,43 +1,79 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Thank you · Amavia</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You | amavia · digital</title>
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#0b0f0e;color:#e8f0ed;display:grid;place-items:center;min-height:100vh}
-    .panel{max-width:560px;background:#111815;border:1px solid #22332c;border-radius:18px;padding:24px}
-    h1{margin-top:0}
-    .muted{color:#a7b7af}
-    a.btn{display:inline-block;margin-top:12px;background:#9ad0b5;color:#06281b;text-decoration:none;padding:10px 12px;border-radius:12px;font-weight:600}
-    #downloads{margin-top:14px}
+    :root {
+      --bg: #0d1110;
+      --text: #e7f6ef;
+      --accent: #a7d7c5;
+      --muted: #a3b1ad;
+      --button: #a7d7c5;
+      --button-text: #0d1110;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Inter", "Segoe UI", sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+      color: var(--accent);
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 480px;
+      line-height: 1.6;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.75rem;
+      background: var(--button);
+      color: var(--button-text);
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
   </style>
 </head>
 <body>
-  <div class="panel">
-    <h1>Thank you</h1>
-    <p class="muted">Your payment was successful. If your download links don’t appear below within a few seconds, please email support@amavia.life with your order email.</p>
-    <div id="downloads">Verifying your purchase…</div>
-    <a class="btn" href="/">Return to store</a>
-  </div>
+  <h1>Payment Successful 💚</h1>
+  <p>
+    Thank you for your purchase with <strong>amavia · digital</strong>.  
+    Your order has been processed successfully. You’ll receive an email shortly
+    with your download link or next steps.
+  </p>
+  <a href="https://amavia.life" class="btn">← Return to Home</a>
 
-  <script>
-  (async function () {
-    const params = new URLSearchParams(window.location.search);
-    const sessionId = params.get('session_id');
-    const box = document.getElementById('downloads');
-    if (!sessionId) { box.innerText = 'Missing session id.'; return; }
-
-    try {
-      const res = await fetch(`/api/verify-session?session_id=${encodeURIComponent(sessionId)}`);
-      const data = await res.json();
-      if (!data.ok) { box.innerText = data.error || 'Could not verify payment.'; return; }
-      if (!data.downloads.length) { box.innerText = 'No downloadable items found.'; return; }
-      box.innerHTML = data.downloads.map(url => `<p><a class="btn" href="${url}" target="_blank" rel="noopener">Download</a></p>`).join('');
-    } catch (err) {
-      box.innerText = 'Error loading downloads.';
-    }
-  })();
-  </script>
+  <footer>© amavia · digital — Guided by Love</footer>
 </body>
 </html>
