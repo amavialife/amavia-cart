@@ -1,206 +1,211 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Amavia · Cart</title>
-  <style>
-    :root{--bg:#0b0f0e;--panel:#111815;--line:#22332c;--text:#e7efe9;--muted:#a7b7af;--accent:#9ad0b5}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
-    header{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:10}
-    .brand{font-weight:700;letter-spacing:.4px}
-    main{max-width:1100px;margin:0 auto;padding:20px}
-    .layout{display:grid;grid-template-columns:1fr 360px;gap:20px}
-    @media (max-width: 900px){.layout{grid-template-columns:1fr}}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
-    .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px}
-    .title{font-size:16px;margin:0 0 4px 0}
-    .desc{font-size:13px;color:var(--muted);margin:0}
-    .price{font-weight:600;margin-top:6px}
-    .btn{background:var(--accent);color:#06281b;border:0;border-radius:12px;padding:10px 12px;font-weight:600;cursor:pointer}
-    .btn:disabled{opacity:.6;cursor:not-allowed}
-    .side{position:sticky;top:84px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;height:max-content}
-    .row{display:flex;justify-content:space-between;align-items:center;margin:8px 0}
-    .small{font-size:13px;color:var(--muted)}
-    .empty{color:var(--muted);text-align:center;padding:20px;border:1px dashed var(--line);border-radius:12px}
-    .qty{display:flex;align-items:center;gap:8px}
-    .qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:#0e1613;color:var(--text);cursor:pointer}
-    .pill{font-size:11px;color:#06281b;background:var(--accent);padding:3px 8px;border-radius:999px;margin-left:6px}
-    .category{margin:8px 0 2px 0;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
-    footer{padding:24px 20px;color:var(--muted);border-top:1px solid var(--line);margin-top:30px}
-    .notice{font-size:12px;color:var(--muted);}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Amavia · Cart</title>
+<style>
+:root{--bg:#0b0f0e;--panel:#111815;--line:#22332c;--text:#e7efe9;--muted:#a7b7af;--accent:#9ad0b5}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:10}
+.brand{font-weight:700;letter-spacing:.4px}
+main{max-width:1100px;margin:0 auto;padding:20px}
+.layout{display:grid;grid-template-columns:1fr 360px;gap:20px}
+@media (max-width: 900px){.layout{grid-template-columns:1fr}}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.title{font-size:16px;margin:0 0 4px 0}
+.desc{font-size:13px;color:var(--muted);margin:0}
+.price{font-weight:600;margin-top:6px}
+.btn{background:var(--accent);color:#06281b;border:0;border-radius:12px;padding:10px 12px;font-weight:600;cursor:pointer}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.side{position:sticky;top:84px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;height:max-content}
+.row{display:flex;justify-content:space-between;align-items:center;margin:8px 0}
+.small{font-size:13px;color:var(--muted)}
+.empty{color:var(--muted);text-align:center;padding:20px;border:1px dashed var(--line);border-radius:12px}
+.qty{display:flex;align-items:center;gap:8px}
+.qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:#0e1613;color:var(--text);cursor:pointer}
+.category{margin:8px 0 2px 0;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+footer{padding:24px 20px;color:var(--muted);border-top:1px solid var(--line);margin-top:30px}
+.notice{font-size:12px;color:var(--muted)}
+</style>
 </head>
 <body>
-  <header>
-    <div class="brand">amavia · digital</div>
-    <a class="btn" href="#">View Cart</a>
-  </header>
+<header>
+  <div class="brand">amavia · digital</div>
+  <a class="btn" href="#">View Cart</a>
+</header>
 
-  <main>
-    <div class="layout">
-      <section>
-        <h2 style="margin:4px 0 12px 0">Templates & Services</h2>
-        <div id="product-list" class="grid"></div>
-      </section>
+<main>
+  <div class="layout">
+    <section>
+      <h2 style="margin:4px 0 12px 0">Templates & Services</h2>
+      <div id="product-list" class="grid"></div>
+    </section>
 
-      <aside class="side">
-        <h3 style="margin:0 0 8px 0">Your Cart</h3>
-        <div id="cart-items" class="empty">Your cart is empty.</div>
-        <div class="row"><span class="small">Subtotal</span><strong id="subtotal">$0.00</strong></div>
-        <p class="notice">Taxes are calculated at checkout. All prices in CAD.</p>
-        <button id="checkout" class="btn" disabled>Proceed to Checkout</button>
-      </aside>
-    </div>
-  </main>
+    <aside class="side">
+      <h3 style="margin:0 0 8px 0">Your Cart</h3>
+      <div id="cart-items" class="empty">Your cart is empty.</div>
+      <div class="row"><span class="small">Subtotal</span><strong id="subtotal">$0.00</strong></div>
+      <p class="notice">Taxes are calculated at checkout. All prices in CAD.</p>
+      <button id="checkout" class="btn" disabled>Proceed to Checkout</button>
+    </aside>
+  </div>
+</main>
 
-  <footer>
-    <div class="notice">Need help? Contact support@amavia.life · Secure payments by Stripe</div>
-  </footer>
+<footer>
+  <div class="notice">Need help? Contact support@amavia.life · Secure payments by Stripe</div>
+</footer>
 
-  <script src="https://js.stripe.com/v3/"></script>
-  <script>
-    // 1) Replace with your Stripe publishable key
-    const stripe = Stripe('pk_test_51SJEXjCipX1klfWPOfDWuam9HReReq9a0jLM7XLr6Xm1rb79z6WQEuhFyJnsWHxInexJZjbfFLWgmNrbTOECcEaO00ZtRZVPsb');
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  // 1) Put YOUR publishable test key here
+  const stripe = Stripe('pk_test_51SJEXjCipX1klfWPOfDWuam9HReReq9a0jLM7XLr6Xm1rb79z6WQEuhFyJnsWHxInexJZjbfFLWgmNrbTOECcEaO00ZtRZVPsb');
 
-    // 16 products (CAD) — shows in the grid
-const PRODUCTS = [
-  {cat:'Packages', name:'Essential Package', price:19900, priceId:'price_1SPv9rCipX1klfWPxf7ZwTuX', desc:'Core set of memorial assets.'},
-  {cat:'Packages', name:'Complete Memorial Package', price:49900, priceId:'price_1SPvAeCipX1klfWPE2yO6sy5', desc:'Obituary, eulogy, program & cards.'},
-  {cat:'Packages', name:'Legacy Package', price:129900, priceId:'price_1SPvD1CipX1klfWPgsL6wunX', desc:'Premium everything, white-glove.'},
+  // 2) Your products (16) with Stripe Price IDs (CAD cents)
+  const PRODUCTS = [
+    {cat:'Packages', name:'Essential Package', price:19900, priceId:'price_1SPv9rCipX1klfWPxf7ZwTuX', desc:'Core set of memorial assets.'},
+    {cat:'Packages', name:'Complete Memorial Package', price:49900, priceId:'price_1SPvAeCipX1klfWPE2yO6sy5', desc:'Obituary, eulogy, program & cards.'},
+    {cat:'Packages', name:'Legacy Package', price:129900, priceId:'price_1SPvD1CipX1klfWPgsL6wunX', desc:'Premium everything, white-glove.'},
 
-  {cat:'Obituaries', name:'Basic Obituary', price:14900, priceId:'price_1SPupSCipX1klfWPOuzr6NOg', desc:'Thoughtful, polished obituary.'},
-  {cat:'Obituaries', name:'Premium Obituary', price:29900, priceId:'price_1SPuqTCipX1klfWPCK0R9qXL', desc:'Long-form tribute with edits.'},
-  {cat:'Obituaries', name:'Legacy Obituary', price:49900, priceId:'price_1SPuvCCipX1klfWPddKUIzrl', desc:'Executive-level storytelling.'},
-  {cat:'Announcements', name:'Death Announcement', price:6900, priceId:'price_1SPuxHCipX1klfWPgAPF5OCO', desc:'Share essential details with care.'},
+    {cat:'Obituaries', name:'Basic Obituary', price:14900, priceId:'price_1SPupSCipX1klfWPOuzr6NOg', desc:'Thoughtful, polished obituary.'},
+    {cat:'Obituaries', name:'Premium Obituary', price:29900, priceId:'price_1SPuqTCipX1klfWPCK0R9qXL', desc:'Long-form tribute with edits.'},
+    {cat:'Obituaries', name:'Legacy Obituary', price:49900, priceId:'price_1SPuvCCipX1klfWPddKUIzrl', desc:'Executive-level storytelling.'},
+    {cat:'Announcements', name:'Death Announcement', price:6900, priceId:'price_1SPuxHCipX1klfWPgAPF5OCO', desc:'Share essential details with care.'},
 
-  {cat:'Eulogies', name:'Basic Eulogy', price:14900, priceId:'price_1SPuzJCipX1klfWPNp6aBnyp', desc:'Sincere words for the service.'},
-  {cat:'Eulogies', name:'Premium Eulogy', price:29900, priceId:'price_1SPv06CipX1klfWPzziESfSy', desc:'Deeper narrative & revisions.'},
+    {cat:'Eulogies', name:'Basic Eulogy', price:14900, priceId:'price_1SPuzJCipX1klfWPNp6aBnyp', desc:'Sincere words for the service.'},
+    {cat:'Eulogies', name:'Premium Eulogy', price:29900, priceId:'price_1SPv06CipX1klfWPzziESfSy', desc:'Deeper narrative & revisions.'},
 
-  {cat:'Programs', name:'Service Program', price:8900, priceId:'price_1SPv0yCipX1klfWPM7HLQchm', desc:'Designed program for the service.'},
+    {cat:'Programs', name:'Service Program', price:8900, priceId:'price_1SPv0yCipX1klfWPM7HLQchm', desc:'Designed program for the service.'},
 
-  {cat:'Thank You Cards', name:'Cards (10)', price:2500, priceId:'price_1SPv2cCipX1klfWPHnPLLMGQ', desc:'Set of 10 notes.'},
-  {cat:'Thank You Cards', name:'Cards (25)', price:4900, priceId:'price_1SPv5SCipX1klfWPyjIuBASf', desc:'Set of 25 notes.'},
-  {cat:'Thank You Cards', name:'Cards (50)', price:8900, priceId:'price_1SPv6YCipX1klfWPZ0CVyvMQ', desc:'Set of 50 notes.'},
+    {cat:'Thank You Cards', name:'Cards (10)', price:2500, priceId:'price_1SPv2cCipX1klfWPHnPLLMGQ', desc:'Set of 10 notes.'},
+    {cat:'Thank You Cards', name:'Cards (25)', price:4900, priceId:'price_1SPv5SCipX1klfWPyjIuBASf', desc:'Set of 25 notes.'},
+    {cat:'Thank You Cards', name:'Cards (50)', price:8900, priceId:'price_1SPv6YCipX1klfWPZ0CVyvMQ', desc:'Set of 50 notes.'},
 
-  {cat:'Letters', name:'Legacy Letter', price:12900, priceId:'price_1SPv8YCipX1klfWPicJd7gMC', desc:'A keepsake legacy letter.'},
+    {cat:'Letters', name:'Legacy Letter', price:12900, priceId:'price_1SPv8YCipX1klfWPicJd7gMC', desc:'A keepsake legacy letter.'},
 
-  {cat:'Rush', name:'24-Hour Rush Service', price:14900, priceId:'price_1SPvHICipX1klfWP2mwzYcFj', desc:'Delivery in 24 hours.'},
-  {cat:'Rush', name:'Same-Day Rush Service', price:24900, priceId:'price_1SPvIdCipX1klfWPDQuRJENw', desc:'Delivery same day.'},
-];
+    {cat:'Rush', name:'24-Hour Rush Service', price:14900, priceId:'price_1SPvHICipX1klfWP2mwzYcFj', desc:'Delivery in 24 hours.'},
+    {cat:'Rush', name:'Same-Day Rush Service', price:24900, priceId:'price_1SPvIdCipX1klfWPDQuRJENw', desc:'Delivery same day.'},
+  ];
 
-    // Read ?product=price_x&qty=1 to pre-add from Carrd buttons
-    const params = new URLSearchParams(location.search);
-    const prePid = params.get('product');
-    const preQty = parseInt(params.get('qty') || '1', 10);
+  const params = new URLSearchParams(location.search);
+  const prePid = params.get('product');
+  const preQty = parseInt(params.get('qty') || '1', 10);
 
-    const productList = document.getElementById('product-list');
-    const cartEl = document.getElementById('cart-items');
-    const subtotalEl = document.getElementById('subtotal');
-    const checkoutBtn = document.getElementById('checkout');
-    const fmt = new Intl.NumberFormat('en-CA', { style:'currency', currency:'CAD' });
+  const productList = document.getElementById('product-list');
+  const cartEl = document.getElementById('cart-items');
+  const subtotalEl = document.getElementById('subtotal');
+  const checkoutBtn = document.getElementById('checkout');
+  const fmt = new Intl.NumberFormat('en-CA', { style:'currency', currency:'CAD' });
 
-    const cart = [];
+  const cart = [];
 
-    function renderProducts(){
-      productList.innerHTML = '';
-      let lastCat = '';
-      PRODUCTS.forEach(p => {
-        if (p.cat !== lastCat){
-          const cat = document.createElement('div');
-          cat.className = 'category';
-          cat.textContent = p.cat;
-          productList.appendChild(cat);
-          lastCat = p.cat;
-        }
-        const c = document.createElement('div');
-        c.className = 'card';
-        c.innerHTML = \`
-          <h3 class="title">\${p.name}</h3>
-          <p class="desc">\${p.desc || ''}</p>
-          <div class="price">\${fmt.format(p.price/100)}</div>
-          <button class="btn">Add to Cart</button>
-        \`;
-        c.querySelector('button').onclick = () => addToCart(p);
-        productList.appendChild(c);
-      });
-    }
-
-    function addToCart(p, qty=1){
-      const existing = cart.find(i => i.priceId === p.priceId);
-      if (existing) existing.qty += qty;
-      else cart.push({ name:p.name, price:p.price, priceId:p.priceId, qty });
-      renderCart();
-    }
-
-    function removeFromCart(pid){
-      const idx = cart.findIndex(i => i.priceId === pid);
-      if (idx >= 0) cart.splice(idx,1);
-      renderCart();
-    }
-
-    function changeQty(pid, delta){
-      const item = cart.find(i => i.priceId === pid);
-      if (!item) return;
-      item.qty = Math.max(1, item.qty + delta);
-      renderCart();
-    }
-
-    function renderCart(){
-      if (!cart.length){
-        cartEl.className = 'empty';
-        cartEl.textContent = 'Your cart is empty.';
-        subtotalEl.textContent = fmt.format(0);
-        checkoutBtn.disabled = true;
-        return;
+  function renderProducts(){
+    productList.innerHTML = '';
+    let lastCat = '';
+    PRODUCTS.forEach(p => {
+      if (p.cat !== lastCat){
+        const cat = document.createElement('div');
+        cat.className = 'category';
+        cat.textContent = p.cat;
+        productList.appendChild(cat);
+        lastCat = p.cat;
       }
-      cartEl.className = '';
-      cartEl.innerHTML = cart.map(i => \`
-        <div class="row">
-          <div>
-            <div>\${i.name}</div>
-            <div class="small">\${fmt.format(i.price/100)} · <a href="#" data-rm="\${i.priceId}" style="color:#9ad0b5">remove</a></div>
-          </div>
-          <div class="qty">
-            <button data-dec="\${i.priceId}">-</button>
-            <div>\${i.qty}</div>
-            <button data-inc="\${i.priceId}">+</button>
-          </div>
-        </div>\`).join('');
+      const c = document.createElement('div');
+      c.className = 'card';
+      c.innerHTML = `
+        <h3 class="title">${p.name}</h3>
+        <p class="desc">${p.desc || ''}</p>
+        <div class="price">${fmt.format(p.price/100)}</div>
+        <button class="btn">Add to Cart</button>
+      `;
+      c.querySelector('button').onclick = () => addToCart(p);
+      productList.appendChild(c);
+    });
+  }
 
-      cartEl.querySelectorAll('[data-rm]').forEach(a => a.onclick = (e)=>{e.preventDefault(); removeFromCart(a.dataset.rm);});
-      cartEl.querySelectorAll('[data-inc]').forEach(b => b.onclick = ()=> changeQty(b.dataset.inc, +1));
-      cartEl.querySelectorAll('[data-dec]').forEach(b => b.onclick = ()=> changeQty(b.dataset.dec, -1));
+  function addToCart(p, qty=1){
+    const existing = cart.find(i => i.priceId === p.priceId);
+    if (existing) existing.qty += qty;
+    else cart.push({ name:p.name, price:p.price, priceId:p.priceId, qty });
+    renderCart();
+  }
 
-      const subtotal = cart.reduce((s,i)=> s + i.price*i.qty, 0);
-      subtotalEl.textContent = fmt.format(subtotal/100);
+  function removeFromCart(pid){
+    const idx = cart.findIndex(i => i.priceId === pid);
+    if (idx >= 0) cart.splice(idx,1);
+    renderCart();
+  }
+
+  function changeQty(pid, delta){
+    const item = cart.find(i => i.priceId === pid);
+    if (!item) return;
+    item.qty = Math.max(1, item.qty + delta);
+    renderCart();
+  }
+
+  function renderCart(){
+    if (!cart.length){
+      cartEl.className = 'empty';
+      cartEl.textContent = 'Your cart is empty.';
+      subtotalEl.textContent = fmt.format(0);
+      checkoutBtn.disabled = true;
+      return;
+    }
+    cartEl.className = '';
+    cartEl.innerHTML = cart.map(i => `
+      <div class="row">
+        <div>
+          <div>${i.name}</div>
+          <div class="small">${fmt.format(i.price/100)} · <a href="#" data-rm="${i.priceId}" style="color:#9ad0b5">remove</a></div>
+        </div>
+        <div class="qty">
+          <button data-dec="${i.priceId}">-</button>
+          <div>${i.qty}</div>
+          <button data-inc="${i.priceId}">+</button>
+        </div>
+      </div>`).join('');
+
+    cartEl.querySelectorAll('[data-rm]').forEach(a => a.onclick = (e)=>{e.preventDefault(); removeFromCart(a.dataset.rm);});
+    cartEl.querySelectorAll('[data-inc]').forEach(b => b.onclick = ()=> changeQty(b.dataset.inc, +1));
+    cartEl.querySelectorAll('[data-dec]').forEach(b => b.onclick = ()=> changeQty(b.dataset.dec, -1));
+
+    const subtotal = cart.reduce((s,i)=> s + i.price*i.qty, 0);
+    subtotalEl.textContent = fmt.format(subtotal/100);
+    checkoutBtn.disabled = false;
+  }
+
+  checkoutBtn.onclick = async () => {
+    checkoutBtn.disabled = true;
+    try {
+      const lineItems = cart.map(i => ({ price: i.priceId, quantity: i.qty }));
+      const res = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lineItems })
+      });
+      const data = await res.json();
+      if (!data.id) throw new Error(data.error || 'No session id returned');
+      const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
+      if (error) alert(error.message);
+    } catch (e) {
+      alert('Checkout error: ' + e.message);
+    } finally {
       checkoutBtn.disabled = false;
     }
+  };
 
-    checkoutBtn.onclick = async () => {
-      checkoutBtn.disabled = true;
-      try {
-        const lineItems = cart.map(i => ({ price: i.priceId, quantity: i.qty }));
-        const res = await fetch('/api/create-checkout-session', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ lineItems })
-        });
-        const data = await res.json();
-        if (!data.id) throw new Error(data.error || 'No session id returned');
-        const { error } = await stripe.redirectToCheckout({ sessionId: data.id });
-        if (error) alert(error.message);
-      } catch (e) {
-        alert('Checkout error: ' + e.message);
-      } finally {
-        checkoutBtn.disabled = false;
-      }
-    };
-
-    // Init
+  // Boot
+  document.addEventListener('DOMContentLoaded', () => {
     renderProducts();
-    if (prePid){ addToCart(PRODUCTS.find(p=>p.priceId===prePid) || {name:'Item', price:0, priceId:prePid}, preQty||1); }
-  </script>
+    if (prePid){
+      const found = PRODUCTS.find(p=>p.priceId===prePid);
+      if (found) addToCart(found, preQty || 1);
+    }
+  });
+</script>
 </body>
 </html>
+
+  
