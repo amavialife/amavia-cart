@@ -9,11 +9,79 @@
     background-color: #0d2e22;
     color: #e7efe9;
     font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    height: 100vh; text-align: center; padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+    overflow: hidden;
   }
-  h1 { color: #eed558; font-size: 1.8em; margin-bottom: 0.4em; }
-  p { max-width: 420px; line-height: 1.6; }
+
+  /* 🌿 Leaf watermark */
+  body::before {
+    content: "🌿";
+    position: absolute;
+    font-size: 320px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-20deg);
+    color: rgba(154, 208, 181, 0.05);
+    filter: blur(1px);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* ✅ Animated checkmark circle */
+  .checkmark {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 4px solid #eed558;
+    position: relative;
+    box-shadow: 0 0 20px rgba(238,213,88,0.25);
+    margin-bottom: 24px;
+    animation: pop 0.4s ease-out;
+  }
+
+  .checkmark::after {
+    content: '';
+    position: absolute;
+    left: 22px;
+    top: 38px;
+    width: 20px;
+    height: 40px;
+    border-right: 4px solid #eed558;
+    border-bottom: 4px solid #eed558;
+    transform: rotate(45deg) scale(0);
+    transform-origin: center;
+    animation: draw 0.5s 0.3s ease-out forwards;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes draw {
+    to { transform: rotate(45deg) scale(1); }
+  }
+
+  h1 {
+    color: #eed558;
+    font-size: 1.9em;
+    margin-bottom: 0.4em;
+    letter-spacing: 0.5px;
+  }
+
+  p {
+    max-width: 420px;
+    line-height: 1.6;
+    color: #e7efe9;
+  }
+
   a.btn {
     display: inline-block;
     background: #eed558;
@@ -22,18 +90,29 @@
     font-weight: 600;
     padding: 14px 34px;
     border-radius: 8px;
-    margin-top: 24px;
+    margin-top: 28px;
     transition: all 0.25s ease;
   }
-  a.btn:hover { background: #f1e47a; }
+
+  a.btn:hover {
+    background: #f1e47a;
+    transform: translateY(-2px);
+  }
+
+  footer {
+    position: absolute;
+    bottom: 20px;
+    font-size: 13px;
+    color: #a7b7af;
+    letter-spacing: 0.04em;
+  }
 </style>
 </head>
 <body>
     <h1>Payment Confirmed</h1>
     <p>Thank you for your purchase. We are honored that you have chosen <strong>amavia<span class="tm">™</span></strong> to help commemorate your loved one.  
     Please take a moment to complete the family details form below — this helps our team begin preparing your order with care and accuracy.</p>
-    <!-- 🟢 Replace with your real Tally form link -->
-    <a href="https://amavia.life/#writtenservicespaymentthankyou" class="btn">Continue to Intake Form</a>
+       <a href="https://amavia.life/#writtenservicespaymentthankyou" class="btn">Continue to Intake Form</a>
     <footer>guided by love · amavia™<span class="tm">™</span></footer>
   </div>
 </body>
