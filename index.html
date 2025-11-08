@@ -1,256 +1,140 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Amavia · Cart</title>
-/* === Bottom bar layout fix === */
-.bottom-bar{
-  position: fixed; bottom: 0; left: 0; width: 100%;
-  background: var(--panel); border-top: 1px solid var(--line);
-  text-align: center; padding: 12px 16px;
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  z-index: 100; box-shadow: 0 -4px 12px rgba(0,0,0,.25);
-}
-.amavia-footer{ margin: 0; line-height: 1.35; }
-.amavia-brand{ font-weight: 600; font-size: 14px; color: var(--text); letter-spacing: .05em; }
-.amavia-tagline{ font-style: italic; color: var(--accent); font-size: 12px; }
-.tm{ font-size: 10px; vertical-align: super; margin-left: 2px; }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Amavia · Cart</title>
 
-/* Since there’s no button now, the bar is shorter — give the page a bit less padding */
-main{ padding-bottom: 70px; }
-<style>
-:root{--bg:#0b0f0e;--panel:#111815;--line:#22332c;--text:#e7efe9;--muted:#a7b7af;--accent:#9ad0b5}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
-header{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:10}
-.brand{font-weight:700;letter-spacing:.4px}
-main{max-width:1100px;margin:0 auto;padding:20px}
-.layout{display:grid;grid-template-columns:1fr 360px;gap:20px}
-@media (max-width: 900px){.layout{grid-template-columns:1fr}}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px}
-.title{font-size:16px;margin:0 0 4px 0}
-.desc{font-size:13px;color:var(--muted);margin:0}
-.price{font-weight:600;margin-top:6px}
-.btn{background:var(--accent);color:#06281b;border:0;border-radius:12px;padding:10px 12px;font-weight:600;cursor:pointer}
-.btn:disabled{opacity:.6;cursor:not-allowed}
-.side{position:sticky;top:84px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;height:max-content}
-.row{display:flex;justify-content:space-between;align-items:center;margin:8px 0}
-.small{font-size:13px;color:var(--muted)}
-.empty{color:var(--muted);text-align:center;padding:20px;border:1px dashed var(--line);border-radius:12px}
-.qty{display:flex;align-items:center;gap:8px}
-.qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:#0e1613;color:var(--text);cursor:pointer}
-.category{margin:8px 0 2px 0;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
-footer{padding:24px 20px;color:var(--muted);border-top:1px solid var(--line);margin-top:30px}
-.notice{font-size:12px;color:var(--muted)}
-/* ===== Premium hover & button alignment ===== */
-
-/* Card hover effect */
-.card {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-  border-color: var(--accent);
-}
-
-/* Button hover: soft color change + glow */
-.btn {
-  transition: background 0.2s ease, transform 0.1s ease;
-  width: 100%;
-}
-.btn:hover {
-  background: #b8e4cb;
-  transform: translateY(-1px);
-}
-
-/* Category headers spacing + alignment */
-.category {
-  grid-column: 1 / -1;
-  margin-top: 28px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--muted);
-  letter-spacing: 0.15em;
-}
-
-/* Better alignment & breathing room for the grid */
-.grid {
-  gap: 20px;
-  align-items: stretch;
-}
-/* ===== Header styling ===== */
-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 18px 20px;
-  border-bottom: 1px solid var(--line);
-  background: var(--bg);
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
-.brand {
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: .3px;
-  color: var(--text);
-}
-
-/* ===== Bottom bar with “amavia · life — guided by love” ===== */
-.bottom-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: var(--panel);
-  border-top: 1px solid var(--line);
-  text-align: center;
-  padding: 10px 0 18px;
-  z-index: 100;
-  box-shadow: 0 -4px 12px rgba(0,0,0,0.25);
-}
-
-.amavia-footer {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.3;
-  margin-bottom: 6px;
-}
-
-.amavia-brand {
-  font-weight: 600;
-  font-size: 14px;
-  color: var(--text);
-  letter-spacing: 0.05em;
-}
-
-.amavia-tagline {
-  font-style: italic;
-  color: var(--accent);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-}
-
-.bottom-bar .btn {
-  background: var(--accent);
-  color: #06281b;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 22px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.bottom-bar .btn:hover {
-  background: #b8e4cb;
-  transform: translateY(-2px);
-}
-
-/* Typography refinements */
-.title {
-  font-size: 15px;
-  font-weight: 600;
-}
-.price {
-  font-size: 14px;
-}
-/* ===== Keep cart visible while scrolling on mobile ===== */
-@media (max-width: 900px) {
-  .side {
-    position: sticky;
-    bottom: 0;
-    background: var(--panel);
-    border-top: 1px solid var(--line);
-    padding-bottom: 12px;
-    z-index: 10;
+  <style>
+  :root{
+    --bg:#0b0f0e;--panel:#111815;--line:#22332c;--text:#e7efe9;
+    --muted:#a7b7af;--accent:#9ad0b5;
+    --header-h:56px;
   }
-}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
 
-</style>
+  /* Header */
+  header{
+    position:sticky; top:0; z-index:50;
+    height:var(--header-h);
+    display:flex; align-items:center; justify-content:center;
+    padding:0 20px; border-bottom:1px solid var(--line); background:var(--bg);
+  }
+  .brand{font-weight:700; font-size:18px; letter-spacing:.3px; color:var(--text)}
+
+  /* Main layout */
+  main{max-width:1200px; margin:0 auto; padding:20px; padding-top:calc(var(--header-h) + 12px); padding-bottom:90px;}
+  .layout{display:grid; grid-template-columns:1.45fr 360px; gap:24px; align-items:start;}
+  @media (max-width:900px){ .layout{grid-template-columns:1fr} }
+
+  /* Grid of product cards */
+  .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:18px; align-items:stretch;}
+  .category{grid-column:1 / -1; margin:22px 0 8px; color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.12em;}
+
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px; display:flex; flex-direction:column; justify-content:space-between; gap:8px; min-height:180px; transition:transform .25s ease, box-shadow .25s ease;}
+  .card:hover{transform:translateY(-4px); box-shadow:0 8px 20px rgba(0,0,0,.25); border-color:var(--accent);}
+  .title{font-size:15px; font-weight:600; margin:0 0 4px}
+  .desc{font-size:13px; color:var(--muted); margin:0; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:34px;}
+  .price{font-size:14px; font-weight:600; margin-top:6px}
+  .btn{background:var(--accent); color:#06281b; border:0; border-radius:12px; padding:10px 12px; font-weight:600; cursor:pointer; width:100%; transition:background .2s ease, transform .1s ease;}
+  .btn:hover{background:#b8e4cb; transform:translateY(-1px)}
+  .btn:disabled{opacity:.6; cursor:not-allowed}
+
+  /* Cart sidebar */
+  .side{position:sticky; top:calc(var(--header-h) + 16px); background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px; height:max-content}
+  .row{display:flex; justify-content:space-between; align-items:center; margin:8px 0}
+  .small{font-size:13px; color:var(--muted)}
+  .empty{color:var(--muted); text-align:center; padding:20px; border:1px dashed var(--line); border-radius:12px}
+  .qty{display:flex; align-items:center; gap:8px}
+  .qty button{width:28px; height:28px; border-radius:8px; border:1px solid var(--line); background:#0e1613; color:var(--text); cursor:pointer}
+
+  /* Bottom brand bar (no button) */
+  .bottom-bar{
+    position:fixed; left:0; bottom:0; width:100%;
+    background:var(--panel); border-top:1px solid var(--line);
+    text-align:center; padding:10px 0 18px; z-index:100; box-shadow:0 -4px 12px rgba(0,0,0,.25);
+  }
+  .amavia-footer{color:var(--muted); font-size:13px; line-height:1.3; margin-bottom:6px;}
+  .amavia-brand{font-weight:600; font-size:14px; color:var(--text); letter-spacing:.05em;}
+  .tm{font-size:10px; vertical-align:super; margin-left:2px;}
+  .amavia-tagline{font-style:italic; color:var(--accent); font-size:12px; letter-spacing:.04em;}
+
+  /* Mobile sticky cart to bottom if needed */
+  @media (max-width:900px){
+    .side{position:static}
+    main{padding-bottom:110px}
+  }
+  </style>
 </head>
- class="bottom-bar">
-  <div class="bottom-bar">
-  <div class="amavia-footer">
-    <div class="amavia-brand">
-      amavia<span class="tm">™</span>
-    </div>
-    <div class="amavia-tagline">guided by love</div>
-  </div>
-<script>
-document.getElementById('view-cart-bottom')?.addEventListener('click', (e) => {
-  e.preventDefault();
-  document.querySelector('.side')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
-</script>
-<div class="bottom-bar">
-  <div class="amavia-footer">
-    <div class="amavia-brand">amavia · life</div>
-    <div class="amavia-tagline">guided by love</div>
-  </div>
-  <a class="btn" href="#" id="view-cart-bottom">View Cart</a>
-</div>
+
 <body>
-<header>
-  <div class="brand">amavia<span style="font-size:12px; vertical-align:super;">™</span></div>
-</header>
+  <header>
+    <div class="brand">amavia<span class="tm">™</span></div>
+  </header>
 
+  <main>
+    <div class="layout">
+      <section>
+        <h2 style="margin:4px 0 12px 0">Templates & Services</h2>
+        <div id="product-list" class="grid"></div>
+      </section>
 
-<main>
-  <div class="layout">
-    <section>
-      <h2 style="margin:4px 0 12px 0">Templates & Services</h2>
-      <div id="product-list" class="grid"></div>
-    </section>
+      <aside class="side">
+        <h3 style="margin:0 0 8px 0">Your Cart</h3>
+        <div id="cart-items" class="empty">Your cart is empty.</div>
+        <div class="row"><span class="small">Subtotal</span><strong id="subtotal">$0.00</strong></div>
+        <p class="notice" style="font-size:12px; color:var(--muted)">Taxes are calculated at checkout. All prices in CAD.</p>
+        <button id="checkout" class="btn" disabled>Proceed to Checkout</button>
+      </aside>
+    </div>
+  </main>
 
-    <aside class="side">
-      <h3 style="margin:0 0 8px 0">Your Cart</h3>
-      <div id="cart-items" class="empty">Your cart is empty.</div>
-      <div class="row"><span class="small">Subtotal</span><strong id="subtotal">$0.00</strong></div>
-      <p class="notice">Taxes are calculated at checkout. All prices in CAD.</p>
-      <button id="checkout" class="btn" disabled>Proceed to Checkout</button>
-    </aside>
-  </div>
-</main>
+  <footer class="bottom-bar">
+    <div class="amavia-footer">
+      <div class="amavia-brand">amavia<span class="tm">™</span></div>
+      <div class="amavia-tagline">guided by love</div>
+    </div>
+  </footer>
 
-<footer>
-  <div class="notice">Need help? Contact support@amavia.life · Secure payments by Stripe</div>
-</footer>
-
-<script src="https://js.stripe.com/v3/"></script>
-<script>
-  // 1) Put YOUR publishable test key here
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+  // 1) Your publishable test key
   const stripe = Stripe('pk_test_51SJEXtCeZgmr4yWZU6yP7VQ9bmKnZitQxo42by2n0kx428MTLxi3KjJighpbKnl7G3zUnMOwUJS7JGz0aQ2tfegs00x04Cx129');
 
-  // 2) Your products (16) with Stripe Price IDs (CAD cents)
+  // 2) All 16 products
   const PRODUCTS = [
-    {cat:'Packages', name:'Essential Package', price:19900, priceId:'price_1SQqGsCeZgmr4yWZTYdTWkyH', desc:'Core set of memorial assets.'},
-    {cat:'Packages', name:'Complete Memorial Package', price:49900, priceId:'price_1SPvAeCipX1klfWPE2yO6sy5', desc:'Obituary, eulogy, program & cards.'},
-    {cat:'Packages', name:'Legacy Package', price:129900, priceId:'price_1SPvD1CipX1klfWPgsL6wunX', desc:'Premium everything, white-glove.'},
+    // PACKAGES
+    {cat:'Packages', name:'Essential Package',            price:19900,  priceId:'price_1SQqGsCeZgmr4yWZTYdTWkyH', desc:'Core set of memorial assets.'},
+    {cat:'Packages', name:'Complete Memorial Package',     price:49900,  priceId:'price_1SPvAeCipX1klfWPE2yO6sy5', desc:'Obituary, eulogy, program & cards.'},
+    {cat:'Packages', name:'Legacy Package',                price:129900, priceId:'price_1SPvD1CipX1klfWPgsL6wunX', desc:'Premium everything, white-glove.'},
 
-    {cat:'Obituaries', name:'Basic Obituary', price:14900, priceId:'price_1SPupSCipX1klfWPOuzr6NOg', desc:'Thoughtful, polished obituary.'},
-    {cat:'Obituaries', name:'Premium Obituary', price:29900, priceId:'price_1SPuqTCipX1klfWPCK0R9qXL', desc:'Long-form tribute with edits.'},
-    {cat:'Obituaries', name:'Legacy Obituary', price:49900, priceId:'price_1SPuvCCipX1klfWPddKUIzrl', desc:'Executive-level storytelling.'},
-  
-    {cat:'Announcements', name:'Death Announcement', price:6900, priceId:'price_1SPuxHCipX1klfWPgAPF5OCO', desc:'Share essential details with care.'},
+    // OBITUARIES
+    {cat:'Obituaries', name:'Basic Obituary',              price:14900,  priceId:'price_1SPupSCipX1klfWPOuzr6NOg', desc:'Thoughtful, polished obituary.'},
+    {cat:'Obituaries', name:'Premium Obituary',            price:29900,  priceId:'price_1SPuqTCipX1klfWPCK0R9qXL', desc:'Long-form tribute with edits.'},
+    {cat:'Obituaries', name:'Legacy Obituary',             price:49900,  priceId:'price_1SPuvCCipX1klfWPddKUIzrl', desc:'Executive-level storytelling.'},
 
-    {cat:'Eulogies', name:'Basic Eulogy', price:14900, priceId:'price_1SPuzJCipX1klfWPNp6aBnyp', desc:'Sincere words for the service.'},
-    {cat:'Eulogies', name:'Premium Eulogy', price:29900, priceId:'price_1SPv06CipX1klfWPzziESfSy', desc:'Deeper narrative & revisions.'},
+    // ANNOUNCEMENTS
+    {cat:'Announcements', name:'Death Announcement',       price:6900,   priceId:'price_1SPuxHCipX1klfWPgAPF5OCO', desc:'Share essential details with care.'},
 
-    {cat:'Programs', name:'Service Program', price:8900, priceId:'price_1SPv0yCipX1klfWPM7HLQchm', desc:'Designed program for the service.'},
+    // EULOGIES
+    {cat:'Eulogies', name:'Basic Eulogy',                  price:14900,  priceId:'price_1SPuzJCipX1klfWPNp6aBnyp', desc:'Sincere words for the service.'},
+    {cat:'Eulogies', name:'Premium Eulogy',                price:29900,  priceId:'price_1SPv06CipX1klfWPzziESfSy', desc:'Deeper narrative & revisions.'},
 
-    {cat:'Thank You Cards', name:'Cards (10)', price:2500, priceId:'price_1SPv2cCipX1klfWPHnPLLMGQ', desc:'Set of 10 notes.'},
-    {cat:'Thank You Cards', name:'Cards (25)', price:4900, priceId:'price_1SPv5SCipX1klfWPyjIuBASf', desc:'Set of 25 notes.'},
-    {cat:'Thank You Cards', name:'Cards (50)', price:8900, priceId:'price_1SPv6YCipX1klfWPZ0CVyvMQ', desc:'Set of 50 notes.'},
+    // PROGRAMS
+    {cat:'Programs', name:'Service Program',               price:8900,   priceId:'price_1SPv0yCipX1klfWPM7HLQchm', desc:'Designed program for the service.'},
 
-    {cat:'Letters', name:'Legacy Letter', price:12900, priceId:'price_1SQqGNCeZgmr4yWZBOtsGAaW', desc:'A keepsake legacy letter.'},
+    // THANK YOU CARDS
+    {cat:'Thank You Cards', name:'Cards (10)',             price:2500,   priceId:'price_1SPv2cCipX1klfWPHnPLLMGQ', desc:'Set of 10 notes.'},
+    {cat:'Thank You Cards', name:'Cards (25)',             price:4900,   priceId:'price_1SPv5SCipX1klfWPyjIuBASf', desc:'Set of 25 notes.'},
+    {cat:'Thank You Cards', name:'Cards (50)',             price:8900,   priceId:'price_1SPv6YCipX1klfWPZ0CVyvMQ', desc:'Set of 50 notes.'},
 
-    {cat:'Rush', name:'24-Hour Rush Service', price:14900, priceId:'price_1SPvHICipX1klfWP2mwzYcFj', desc:'Delivery in 24 hours.'},
-    {cat:'Rush', name:'Same-Day Rush Service', price:24900, priceId:'price_1SPvIdCipX1klfWPDQuRJENw', desc:'Delivery same day.'},
+    // LETTERS
+    {cat:'Letters', name:'Legacy Letter',                  price:12900,  priceId:'price_1SQqGNCeZgmr4yWZBOtsGAaW', desc:'A keepsake legacy letter.'},
+
+    // RUSH
+    {cat:'Rush', name:'24-Hour Rush Service',              price:14900,  priceId:'price_1SPvHICipX1klfWP2mwzYcFj', desc:'Delivery in 24 hours.'},
+    {cat:'Rush', name:'Same-Day Rush Service',             price:24900,  priceId:'price_1SPvIdCipX1klfWPDQuRJENw', desc:'Delivery same day.'},
   ];
 
   const params = new URLSearchParams(location.search);
@@ -360,7 +244,6 @@ document.getElementById('view-cart-bottom')?.addEventListener('click', (e) => {
     }
   };
 
-  // Boot
   document.addEventListener('DOMContentLoaded', () => {
     renderProducts();
     if (prePid){
@@ -368,58 +251,6 @@ document.getElementById('view-cart-bottom')?.addEventListener('click', (e) => {
       if (found) addToCart(found, preQty || 1);
     }
   });
-</script>
+  </script>
 </body>
 </html>
-/* ===== Layout fixes ===== */
-
-/* Wider content + balanced columns */
-main { max-width: 1200px; }
-
-/* Two-column layout: give products more space */
-.layout { grid-template-columns: 1.4fr 360px; gap: 24px; }
-
-/* Make the category labels span the full grid width */
-.grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
-.category {
-  grid-column: 1 / -1;
-  margin: 22px 0 6px;
-  letter-spacing: .12em;
-}
-
-/* Equal-height product cards so the grid lines up nicely */
-.card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 180px;           /* adjust if you want taller cards */
-  padding: 16px;
-}
-
-/* Keep titles/descriptions from making cards super tall */
-.title { line-height: 1.2; }
-.desc {
-  color: var(--muted);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;       /* show up to 2 lines of description */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  min-height: 34px;            /* keep rows aligned even if text is short */
-}
-
-/* Make the button stick to the bottom and full width */
-.card .btn {
-  margin-top: 10px;
-  align-self: stretch;
-}
-
-/* Sidebar tweaks */
-.side { align-self: start; position: sticky; top: 84px; }
-
-/* Small screens: stack nicely */
-@media (max-width: 900px) {
-  .layout { grid-template-columns: 1fr; }
-  .side   { position: static; }
-}
-<!-- redeploy test -->
-Trigger redeploy  
