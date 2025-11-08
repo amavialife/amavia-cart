@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Order Not Completed · amavia</title>
+<style>
+  body {
+    background-color: #0d2e22;
+    color: #e7efe9;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+    overflow: hidden;
+  }
+
+  /* 🌿 Leaf watermark */
+  body::before {
+    content: "🌿";
+    position: absolute;
+    font-size: 320px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-20deg);
+    color: rgba(154, 208, 181, 0.05);
+    filter: blur(1px);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* ❌ Cancel icon (red cross inside gold circle) */
+  .cancel {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 4px solid #eed558;
+    position: relative;
+    box-shadow: 0 0 20px rgba(238,213,88,0.25);
+    margin-bottom: 24px;
+    animation: pop 0.4s ease-out;
+  }
+
+  .cancel::before,
+  .cancel::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 4px;
+    background: #eed558;
+    transform-origin: center;
+    animation: draw 0.4s 0.3s ease-out forwards;
+    opacity: 0;
+  }
+
+  .cancel::before {
+    transform: translate(-50%, -50%) rotate(45deg) scale(0);
+    animation-delay: 0.2s;
+  }
+  .cancel::after {
+    transform: translate(-50%, -50%) rotate(-45deg) scale(0);
+    animation-delay: 0.3s;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes draw {
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(var(--r)); }
+  }
+
+  h1 {
+    color: #eed558;
+    font-size: 1.9em;
+    margin-bottom: 0.4em;
+  }
+
+  p {
+    max-width: 440px;
+    line-height: 1.6;
+    color: #e7efe9;
+  }
+
+  a.btn {
+    display: inline-block;
+    background: #eed558;
+    color: #0d2e22;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 14px 34px;
+    border-radius: 8px;
+    margin-top: 28px;
+    transition: all 0.25s ease;
+  }
+
+  a.btn:hover {
+    background: #f1e47a;
+    transform: translateY(-2px);
+  }
+
+  footer {
+    position: absolute;
+    bottom: 20px;
+    font-size: 13px;
+    color: #a7b7af;
+    letter-spacing: 0.04em;
+  }
+</style>
+</head>
+<body>
+  <div class="cancel"></div>
+  <h1>Order Not Completed</h1>
+  <p>It looks like your payment wasn’t finalized. No charges have been made.</p>
+  <p>If you closed the window by mistake or changed your mind, you can return to your cart to finish checking out.</p>
+  <a href="https://amavia.life" class="btn">Return to amavia™ →</a>
+  <footer>amavia™ · guided by love</footer>
+</body>
+</html>
