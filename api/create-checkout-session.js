@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
       mode: "payment",
       line_items: lineItems,
       success_url: `${req.headers.origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.origin}/index.html`,
+      cancel_url: `${req.headers.origin}/cancel.html`,
       billing_address_collection: "auto",
     });
 
