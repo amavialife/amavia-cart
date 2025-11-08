@@ -142,36 +142,37 @@
   // 2) Your products (16)
   const PRODUCTS = [
     // PACKAGES
-    {cat:'Packages', name:'Essential Package',            price:19900,  priceId:'price_1SQqGsCeZgmr4yWZTYdTWkyH', desc:'Core set of memorial assets.'},
-    {cat:'Packages', name:'Complete Memorial Package',     price:49900,  priceId:'price_1SPvAeCipX1klfWPE2yO6sy5', desc:'Obituary, eulogy, program & cards.'},
-    {cat:'Packages', name:'Legacy Package',                price:129900, priceId:'price_1SPvD1CipX1klfWPgsL6wunX', desc:'Premium everything, white-glove.'},
+    {cat:'Packages', name:'Essential Package',            price:19900,  priceId:'price_1SQqGsCeZgmr4yWZTYdTWkyH', desc:'Core set of memorial assets - Obituary (Basic)
+Death Announcement, Service Program Outline.'},
+    {cat:'Packages', name:'Complete Memorial Package',     price:49900,  priceId:'price_1SPvAeCipX1klfWPE2yO6sy5', desc:'Obituary (Premium) Death Announcement, Service Program, Eulogy (Basic).'},
+    {cat:'Packages', name:'Legacy Package',                price:129900, priceId:'price_1SPvD1CipX1klfWPgsL6wunX', desc:'Obituary (Legacy - extended), Eulogy (Premium - full),Complete Service Program, Legacy Letter (one recipient), 25 Thank You Cards, 1-year memorial page hosting on amavia™.'},
 
     // OBITUARIES
-    {cat:'Obituaries', name:'Basic Obituary',              price:14900,  priceId:'price_1SPupSCipX1klfWPOuzr6NOg', desc:'Thoughtful, polished obituary.'},
-    {cat:'Obituaries', name:'Premium Obituary',            price:29900,  priceId:'price_1SPuqTCipX1klfWPCK0R9qXL', desc:'Long-form tribute with edits.'},
-    {cat:'Obituaries', name:'Legacy Obituary',             price:49900,  priceId:'price_1SPuvCCipX1klfWPddKUIzrl', desc:'Executive-level storytelling.'},
+    {cat:'Obituaries', name:'Basic Obituary',              price:14900,  priceId:'price_1SPupSCipX1klfWPOuzr6NOg', desc:'Thoughtful, polished obituary.200-300 words, 48-hour delivery.'},
+    {cat:'Obituaries', name:'Premium Obituary',            price:29900,  priceId:'price_1SPuqTCipX1klfWPCK0R9qXL', desc:'Long-form tribute with edits. 400-600 words, richer life story, 24-hour delivery.'},
+    {cat:'Obituaries', name:'Legacy Obituary',             price:49900,  priceId:'price_1SPuvCCipX1klfWPddKUIzrl', desc:'Executive-level storytelling. 800-1000 words, full narrative, same-day rush available.'},
 
     // ANNOUNCEMENTS
-    {cat:'Announcements', name:'Death Announcement',       price:6900,   priceId:'price_1SPuxHCipX1klfWPgAPF5OCO', desc:'Share essential details with care.'},
+    {cat:'Announcements', name:'Death Announcement',       price:6900,   priceId:'price_1SPuxHCipX1klfWPgAPF5OCO', desc:'Compassionate notifications for family, friends, workplace, or social media. Delivered in 24 hours.'},
 
     // EULOGIES
-    {cat:'Eulogies', name:'Basic Eulogy',                  price:14900,  priceId:'price_1SPuzJCipX1klfWPNp6aBnyp', desc:'Sincere words for the service.'},
-    {cat:'Eulogies', name:'Premium Eulogy',                price:29900,  priceId:'price_1SPv06CipX1klfWPzziESfSy', desc:'Deeper narrative & revisions.'},
+    {cat:'Eulogies', name:'Basic Eulogy',                  price:14900,  priceId:'price_1SPuzJCipX1klfWPNp6aBnyp', desc:'Sincere words for the service. 5-7 minutes, key stories, standard delivery.'},
+    {cat:'Eulogies', name:'Premium Eulogy',                price:29900,  priceId:'price_1SPv06CipX1klfWPzziESfSy', desc:'Deeper narrative & revisions. 10-15 minutes, deeply personal, includes coaching notes.'},
 
     // PROGRAMS
-    {cat:'Programs', name:'Service Program',               price:8900,   priceId:'price_1SPv0yCipX1klfWPM7HLQchm', desc:'Designed program for the service.'},
+    {cat:'Programs', name:'Service Program',               price:8900,   priceId:'price_1SPv0yCipX1klfWPM7HLQchm', desc:'Complete order of service with biography, readings, and photo layout guidance.'},
 
     // THANK YOU CARDS
-    {cat:'Thank You Cards', name:'Cards (10)',             price:2500,   priceId:'price_1SPv2cCipX1klfWPHnPLLMGQ', desc:'Set of 10 notes.'},
-    {cat:'Thank You Cards', name:'Cards (25)',             price:4900,   priceId:'price_1SPv5SCipX1klfWPyjIuBASf', desc:'Set of 25 notes.'},
-    {cat:'Thank You Cards', name:'Cards (50)',             price:8900,   priceId:'price_1SPv6YCipX1klfWPZ0CVyvMQ', desc:'Set of 50 notes.'},
+    {cat:'Thank You Cards', name:'Cards (10)',             price:2500,   priceId:'price_1SPv2cCipX1klfWPHnPLLMGQ', desc:'Set of 10 cards. Personalized messages for attendees, donors, pallbearers, and caregivers.'},
+    {cat:'Thank You Cards', name:'Cards (25)',             price:4900,   priceId:'price_1SPv5SCipX1klfWPyjIuBASf', desc:'Set of 25 cards. Personalized messages for attendees, donors, pallbearers, and caregivers.'},
+    {cat:'Thank You Cards', name:'Cards (50)',             price:8900,   priceId:'price_1SPv6YCipX1klfWPZ0CVyvMQ', desc:'Set of 50 cards. Personalized messages for attendees, donors, pallbearers, and caregivers.'},
 
     // LETTERS
-    {cat:'Letters', name:'Legacy Letter',                  price:12900,  priceId:'price_1SQqGNCeZgmr4yWZBOtsGAaW', desc:'A keepsake legacy letter.'},
+    {cat:'Letters', name:'Legacy Letter',                  price:12900,  priceId:'price_1SQqGNCeZgmr4yWZBOtsGAaW', desc:'A keepsake. Deeply personal letters to loved ones—sharing wisdom, love, and final thoughts.'},
 
     // RUSH
     {cat:'Rush', name:'24-Hour Rush Service',              price:14900,  priceId:'price_1SPvHICipX1klfWP2mwzYcFj', desc:'Delivery in 24 hours.'},
-    {cat:'Rush', name:'Same-Day Rush Service',             price:24900,  priceId:'price_1SPvIdCipX1klfWPDQuRJENw', desc:'Delivery same day.'},
+    {cat:'Rush', name:'Same-Day Rush Service',             price:24900,  priceId:'price_1SPvIdCipX1klfWPDQuRJENw', desc:'Delivery same day (8 hours).'},
   ];
 
   const params = new URLSearchParams(location.search);
