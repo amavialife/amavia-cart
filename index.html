@@ -130,6 +130,7 @@
         <div class="row"><span class="small">Subtotal</span><strong id="subtotal">$0.00</strong></div>
         <p class="small">Taxes are calculated at checkout. All prices in CAD.</p>
         <button id="checkout" class="btn" disabled>Proceed to Checkout</button>
+        <button id="cancel" class="btn" style="background:#eed558; color:#000;">Cancel Order</button>
       </aside>
     </div>
   </main>
@@ -304,6 +305,13 @@
       checkoutBtn.disabled = false;
     }
   };
+// Handle Cancel button -> go to our cancel page
+const cancelBtn = document.getElementById('cancel');
+if (cancelBtn) {
+  cancelBtn.addEventListener('click', () => {
+    window.location.href = '/cancel.html';
+  });
+}
 
   // Boot
   document.addEventListener('DOMContentLoaded', () => {
