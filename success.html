@@ -1,79 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thank You | amavia · digital</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thank You · amavia™</title>
   <style>
     :root {
-      --bg: #0d1110;
-      --text: #e7f6ef;
-      --accent: #a7d7c5;
-      --muted: #a3b1ad;
-      --button: #a7d7c5;
-      --button-text: #0d1110;
+      --bg:#0d2e22;
+      --panel:#102f25;
+      --line:#1d4a39;
+      --text:#e7efe9;
+      --muted:#a7b7af;
+      --accent:#eed558;
     }
-
+    * { box-sizing:border-box; }
     body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      margin:0;
+      font-family: "Georgia", "Times New Roman", serif;
       background: var(--bg);
       color: var(--text);
-      font-family: "Inter", "Segoe UI", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    .card {
+      max-width: 520px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 40px 28px;
       text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
     }
-
     h1 {
-      font-size: 2rem;
-      margin-bottom: 0.75rem;
-      color: var(--accent);
-    }
-
-    p {
-      color: var(--muted);
-      font-size: 1.05rem;
-      max-width: 480px;
-      line-height: 1.6;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 1.5rem;
-      padding: 0.75rem 1.75rem;
-      background: var(--button);
-      color: var(--button-text);
-      border-radius: 999px;
-      text-decoration: none;
+      margin-top: 0;
+      font-size: 26px;
+      letter-spacing: 0.5px;
       font-weight: 600;
-      transition: all 0.3s ease;
     }
-
-    .btn:hover {
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--muted);
+      margin: 14px 0 28px;
+    }
+    a.btn {
+      display: inline-block;
       background: var(--accent);
+      color: #000;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 12px;
+      padding: 14px 26px;
+      transition: all 0.2s ease;
+    }
+    a.btn:hover {
+      filter: brightness(1.05);
       transform: translateY(-2px);
     }
-
     footer {
-      position: absolute;
-      bottom: 1.5rem;
-      font-size: 0.8rem;
+      margin-top: 24px;
+      font-size: 13px;
       color: var(--muted);
     }
+    .tm { font-size:10px; vertical-align:super; }
   </style>
 </head>
-<body>
-  <h1>Payment Successful 💚</h1>
-  <p>
-    Thank you for your purchase with <strong>amavia · digital</strong>.  
-    Your order has been processed successfully. You’ll receive an email shortly
-    with your download link or next steps.
-  </p>
-  <a href="https://amavia.life" class="btn">← Return to Home</a>
 
-  <footer>© amavia · digital — Guided by Love</footer>
+<body>
+  <div class="card">
+    <h1>Thank You for Your Purchase</h1>
+    <p>We’re honored that you’ve chosen <strong>amavia<span class="tm">™</span></strong> to help commemorate your loved one.  
+    Please take a moment to complete the family details form below — this helps our team begin preparing your order with care and accuracy.</p>
+
+    <!-- 🟢 Replace with your real Tally form link -->
+    <a href="https://tally.so/r/yourformid" target="_blank" class="btn">
+      Fill Out Family Details Form
+    </a>
+
+    <footer>guided by love · amavia™<span class="tm">™</span></footer>
+  </div>
 </body>
 </html>
+
