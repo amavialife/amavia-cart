@@ -1,85 +1,39 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Thank You · amavia™</title>
-  <style>
-    :root {
-      --bg:#0d2e22;
-      --panel:#102f25;
-      --line:#1d4a39;
-      --text:#e7efe9;
-      --muted:#a7b7af;
-      --accent:#eed558;
-    }
-    * { box-sizing:border-box; }
-    body {
-      margin:0;
-      font-family: "Georgia", "Times New Roman", serif;
-      background: var(--bg);
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 40px 20px;
-    }
-    .card {
-      max-width: 520px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 40px 28px;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-    }
-    h1 {
-      margin-top: 0;
-      font-size: 26px;
-      letter-spacing: 0.5px;
-      font-weight: 600;
-    }
-    p {
-      font-size: 16px;
-      line-height: 1.6;
-      color: var(--muted);
-      margin: 14px 0 28px;
-    }
-    a.btn {
-      display: inline-block;
-      background: var(--accent);
-      color: #000;
-      text-decoration: none;
-      font-weight: 700;
-      border-radius: 12px;
-      padding: 14px 26px;
-      transition: all 0.2s ease;
-    }
-    a.btn:hover {
-      filter: brightness(1.05);
-      transform: translateY(-2px);
-    }
-    footer {
-      margin-top: 24px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .tm { font-size:10px; vertical-align:super; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Payment Confirmed · amavia™</title>
+<style>
+  body {
+    background-color: #0d2e22;
+    color: #e7efe9;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100vh; text-align: center; padding: 20px;
+  }
+  h1 { color: #eed558; font-size: 1.8em; margin-bottom: 0.4em; }
+  p { max-width: 420px; line-height: 1.6; }
+  a.btn {
+    display: inline-block;
+    background: #eed558;
+    color: #0d2e22;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 14px 34px;
+    border-radius: 8px;
+    margin-top: 24px;
+    transition: all 0.25s ease;
+  }
+  a.btn:hover { background: #f1e47a; }
+</style>
 </head>
-
 <body>
-  <div class="card">
-    <h1>Thank You for Your Purchase</h1>
-    <p>We’re honored that you’ve chosen <strong>amavia<span class="tm">™</span></strong> to help commemorate your loved one.  
+    <h1>Payment Confirmed</h1>
+    <p>Thank you for your purchase. We are honored that you have chosen <strong>amavia<span class="tm">™</span></strong> to help commemorate your loved one.  
     Please take a moment to complete the family details form below — this helps our team begin preparing your order with care and accuracy.</p>
-
     <!-- 🟢 Replace with your real Tally form link -->
-    <a href="https://tally.so/r/yourformid" target="_blank" class="btn">
-      Fill Out Family Details Form
-    </a>
-
+    <a href="https://amavia.life/#writtenservicespaymentthankyou" class="btn">Continue to Intake Form</a>
     <footer>guided by love · amavia™<span class="tm">™</span></footer>
   </div>
 </body>
