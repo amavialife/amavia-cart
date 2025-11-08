@@ -215,11 +215,13 @@
   }
 
   function addToCart(p, qty=1){
-    const existing = cart.find(i => i.priceId === p.priceId);
-    if (existing) existing.qty += qty;
-    else cart.push({ name:p.name, price:p.price, priceId:p.priceId, qty });
-    renderCart();
-  }
+  const existing = cart.find(i => i.priceId === p.priceId);
+  if (existing) existing.qty += qty;
+  else cart.push({ name:p.name, price:p.price, priceId:p.priceId, qty });
+  renderCart();
+  // Auto-open the cart panel after adding an item
+  document.getElementById('cart-panel')?.classList.add('open');
+}
 
   function removeFromCart(pid){
     const idx = cart.findIndex(i => i.priceId === pid);
