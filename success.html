@@ -118,6 +118,65 @@
     </a>
     <footer>guided by love · amavia™<span class="tm">™</span></footer>
   </div>
+  <script>
+  // 👉 Set your Tally form ID once here:
+  const TALLY_FORM = 'OD17oK'; // replace if you change forms
+  const BASE_TALLY = `https://tally.so/r/${TALLY_FORM}`;
+
+  // Read session_id from Stripe
+  const params = new URLSearchParams(location.search);
+  const sid = params.get('session_id');
+
+  async function proceed() {
+    try {
+      if (!sid) throw new Error('Missing session_id');
+
+      // Ask our API what was purchased
+      const res = await fetch(`/api/verify-session?id=${encodeURIComponent(sid)}`);
+      const data = await res.json();
+      if (!data.items || !Array.isArray(data.items)) throw new Error('No items found');
+
+      // Build a clean list of service names
+      const names = [];
+      for (const it of data.items) {
+        if (!it.name) continue;
+        // Optional normalization if your Stripe product names differ from Tally condition names:
+        // e.g., map "Thank You Cards (10)" → "Thank You Cards"
+        let n = it.name.trim();
+
+        // Example simple normalizations (expand as needed):
+        if (n.toLowerCase().startsWith('thank you cards')) n = 'Thank You Cards';
+        if (n.toLowerCase().includes('package') && n.toLowerCase().includes('complete')) n = 'Complete Memorial Package';
+
+        if (!names.includes(n)) names.push(n);
+      }
+
+      // Single vs multi-product query
+      let toUrl;
+      if (names.length === 1) {
+        toUrl = `${BASE_TALLY}?service=${encodeURIComponent(names[0])}`;
+      } else {
+        // Pass a CSV; your Tally logic can “contains” each token
+        toUrl = `${BASE_TALLY}?services=${encodeURIComponent(names.join(','))}`;
+      }
+
+      // Update the visible button (if you keep it) and also auto-redirect
+      const btn = document.querySelector('a.btn');
+      if (btn) btn.href = toUrl;
+
+      // Gentle delay so they see your gold checkmark before redirect
+      setTimeout(() => { window.location.href = toUrl; }, 1200);
+    } catch (e) {
+      console.error(e);
+      // Fallback: still send them to the base Tally form
+      const fallback = `${BASE_TALLY}`;
+      const btn = document.querySelector('a.btn');
+      if (btn) btn.href = fallback;
+    }
+  }
+
+  proceed();
+</script>
 </body>
 </html>
 
