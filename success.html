@@ -119,63 +119,130 @@
     <footer>guided by love · amavia™<span class="tm">™</span></footer>
   </div>
   <script>
-  // 👉 Set your Tally form ID once here:
-  const TALLY_FORM = 'OD17oK'; // replace if you change forms
-  const BASE_TALLY = `https://tally.so/r/${TALLY_FORM}`;
+ // ========= CONFIG =========
+  const TALLY_FORM_ID = 'OD17oK'; // your Tally form id
+  const BASE_TALLY = `https://tally.so/r/${TALLY_FORM_ID}`;
 
-  // Read session_id from Stripe
-  const params = new URLSearchParams(location.search);
-  const sid = params.get('session_id');
+  // Map your Stripe product names -> the labels your Tally logic expects
+  // (Left side must match EXACT names in Stripe Products)
+  const NAME_MAP = {
+    // Obituaries
+    'Basic Obituary': 'Basic Obituary',
+    'Premium Obituary': 'Premium Obituary',
+    'Legacy Obituary': 'Legacy Obituary',
 
-  async function proceed() {
+    // Eulogies
+    'Basic Eulogy': 'Basic Eulogy',
+    'Premium Eulogy': 'Premium Eulogy',
+
+    // Program / Announcement / Letter
+    'Service Program': 'Service Program',
+    'Death Announcement': 'Death Announcement',
+    'Legacy Letter': 'Legacy Letter',
+
+    // Thank You Cards — normalize all variants to one label
+    'Thank You Cards (10)': 'Thank You Cards',
+    'Thank You Cards (25)': 'Thank You Cards',
+    'Thank You Cards (50)': 'Thank You Cards',
+
+    // Packages (keep as package names or expand via PACKAGE_EXPANSIONS below)
+    'Essential Package': 'Essential Package',
+    'Complete Memorial Package': 'Complete Memorial Package',
+    'Legacy Package': 'Legacy Package',
+  };
+
+  // If you want packages to EXPAND to components for Tally conditions,
+  // list them here; otherwise leave empty and handle packages in Tally logic.
+  const PACKAGE_EXPANSIONS = {
+    // Example (adjust to your real package contents if desired):
+    // 'Complete Memorial Package': ['Premium Obituary', 'Basic Eulogy', 'Service Program', 'Thank You Cards', 'Death Announcement'],
+    // 'Legacy Package': ['Legacy Obituary', 'Premium Eulogy', 'Service Program', 'Thank You Cards'],
+    // 'Essential Package': ['Basic Obituary', 'Service Program']
+  };
+
+  // ========= HELPERS =========
+  const uniq = (arr) => Array.from(new Set(arr));
+  function normalizeName(raw) {
+    if (!raw) return '';
+    const t = raw.trim();
+    if (NAME_MAP[t]) return NAME_MAP[t];                         // exact map first
+    if (/^thank you cards/i.test(t)) return 'Thank You Cards';   // loose helper
+    return t;
+  }
+
+  // ========= MAIN =========
+  (async function () {
+    const params = new URLSearchParams(location.search);
+    const sid = params.get('session_id'); // Stripe sends ?session_id=...
+    const btn = document.querySelector('a.btn');
+
+    // Start with button disabled until we know the target
+    if (btn) {
+      btn.style.pointerEvents = 'none';
+      btn.style.opacity = '0.5';
+    }
+
+    if (!sid) {
+      // Fallback: allow the user to open the base form
+      if (btn) {
+        btn.href = BASE_TALLY;
+        btn.style.pointerEvents = 'auto';
+        btn.style.opacity = '1';
+      }
+      return;
+    }
+
     try {
-      if (!sid) throw new Error('Missing session_id');
-
       // Ask our API what was purchased
       const res = await fetch(`/api/verify-session?id=${encodeURIComponent(sid)}`);
       const data = await res.json();
       if (!data.items || !Array.isArray(data.items)) throw new Error('No items found');
 
-      // Build a clean list of service names
-      const names = [];
+      // Normalize names & optionally expand packages
+      let names = [];
       for (const it of data.items) {
-        if (!it.name) continue;
-        // Optional normalization if your Stripe product names differ from Tally condition names:
-        // e.g., map "Thank You Cards (10)" → "Thank You Cards"
-        let n = it.name.trim();
+        let n = normalizeName(it.name);
+        if (!n) continue;
 
-        // Example simple normalizations (expand as needed):
-        if (n.toLowerCase().startsWith('thank you cards')) n = 'Thank You Cards';
-        if (n.toLowerCase().includes('package') && n.toLowerCase().includes('complete')) n = 'Complete Memorial Package';
-
-        if (!names.includes(n)) names.push(n);
+        if (PACKAGE_EXPANSIONS[n]) {
+          names.push(...PACKAGE_EXPANSIONS[n]);
+        } else {
+          names.push(n);
+        }
       }
+      names = uniq(names);
 
-      // Single vs multi-product query
+      // Build Tally URL (single vs multiple)
       let toUrl;
-      if (names.length === 1) {
-        toUrl = `${BASE_TALLY}?service=${encodeURIComponent(names[0])}`;
+      if (names.length <= 1) {
+        const single = names[0] || '';
+        toUrl = single ? `${BASE_TALLY}?service=${encodeURIComponent(single)}`
+                       : BASE_TALLY;
       } else {
-        // Pass a CSV; your Tally logic can “contains” each token
         toUrl = `${BASE_TALLY}?services=${encodeURIComponent(names.join(','))}`;
       }
 
-      // Update the visible button (if you keep it) and also auto-redirect
-      const btn = document.querySelector('a.btn');
-      if (btn) btn.href = toUrl;
+      // Enable the existing button and point it to the correct Tally link
+      if (btn) {
+        btn.href = toUrl;
+        btn.style.pointerEvents = 'auto';
+        btn.style.opacity = '1';
+      }
 
-      // Gentle delay so they see your gold checkmark before redirect
-      setTimeout(() => { window.location.href = toUrl; }, 1200);
+      // No auto-redirect — user will click when ready
+      console.log('Stripe items:', data.items);
+      console.log('Normalized names:', names, '→ Tally URL:', toUrl);
+
     } catch (e) {
       console.error(e);
-      // Fallback: still send them to the base Tally form
-      const fallback = `${BASE_TALLY}`;
-      const btn = document.querySelector('a.btn');
-      if (btn) btn.href = fallback;
+      // Graceful fallback: base form still works
+      if (btn) {
+        btn.href = BASE_TALLY;
+        btn.style.pointerEvents = 'auto';
+        btn.style.opacity = '1';
+      }
     }
-  }
-
-  proceed();
+  })();
 </script>
 </body>
 </html>
