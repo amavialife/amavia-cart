@@ -120,83 +120,104 @@
   </div>
   <script>
  // ========= CONFIG =========
-  const TALLY_FORM_ID = 'OD17oK'; // your Tally form id
+  const TALLY_FORM_ID = 'OD17oK';
   const BASE_TALLY = `https://tally.so/r/${TALLY_FORM_ID}`;
 
-  // Map your Stripe product names -> the labels your Tally logic expects
-  // (Left side must match EXACT names in Stripe Products)
+  // Map Stripe product names -> the labels your Tally logic expects
+  // (LEFT side must match your Stripe Product names EXACTLY)
   const NAME_MAP = {
     // Obituaries
     'Basic Obituary': 'Basic Obituary',
     'Premium Obituary': 'Premium Obituary',
     'Legacy Obituary': 'Legacy Obituary',
 
-    // Eulogies
+    // Announcement / Program / Eulogies / Letter
+    'Death Announcement': 'Death Announcement',
+    'Service Program': 'Service Program',
     'Basic Eulogy': 'Basic Eulogy',
     'Premium Eulogy': 'Premium Eulogy',
-
-    // Program / Announcement / Letter
-    'Service Program': 'Service Program',
-    'Death Announcement': 'Death Announcement',
     'Legacy Letter': 'Legacy Letter',
 
-    // Thank You Cards — normalize all variants to one label
+    // Thank You Cards — normalize to one label
     'Thank You Cards (10)': 'Thank You Cards',
     'Thank You Cards (25)': 'Thank You Cards',
     'Thank You Cards (50)': 'Thank You Cards',
 
-    // Packages (keep as package names or expand via PACKAGE_EXPANSIONS below)
-    'Essential Package': 'Essential Package',
-    'Complete Memorial Package': 'Complete Memorial Package',
-    'Legacy Package': 'Legacy Package',
+    // Packages — keep as package labels (or expand via PACKAGE_EXPANSIONS below)
+    'Essential Package (Save $50)': 'Essential Package',
+    'Complete Memorial Package (Save $150)': 'Complete Memorial Package',
+    'Legacy Package (Save $300)': 'Legacy Package',
   };
 
-  // If you want packages to EXPAND to components for Tally conditions,
-  // list them here; otherwise leave empty and handle packages in Tally logic.
+  // If you want packages to EXPAND into their component services, list them here.
+  // (Optional) — uncomment and adjust to your real package contents.
   const PACKAGE_EXPANSIONS = {
-    // Example (adjust to your real package contents if desired):
+    // 'Essential Package': ['Basic Obituary', 'Service Program'],
     // 'Complete Memorial Package': ['Premium Obituary', 'Basic Eulogy', 'Service Program', 'Thank You Cards', 'Death Announcement'],
     // 'Legacy Package': ['Legacy Obituary', 'Premium Eulogy', 'Service Program', 'Thank You Cards'],
-    // 'Essential Package': ['Basic Obituary', 'Service Program']
   };
 
   // ========= HELPERS =========
   const uniq = (arr) => Array.from(new Set(arr));
+
   function normalizeName(raw) {
     if (!raw) return '';
     const t = raw.trim();
-    if (NAME_MAP[t]) return NAME_MAP[t];                         // exact map first
-    if (/^thank you cards/i.test(t)) return 'Thank You Cards';   // loose helper
-    return t;
+
+    // Exact match first
+    if (NAME_MAP[t]) return NAME_MAP[t];
+
+    // Loose helpers
+    if (/^thank you cards/i.test(t)) return 'Thank You Cards';
+    if (/^service program/i.test(t)) return 'Service Program';
+
+    // Strip “(Save $…)” if a package sneaks through with a different amount
+    const saveStripped = t.replace(/\s*\(Save \$\d+\)\s*$/i, '').trim();
+    if (NAME_MAP[saveStripped]) return NAME_MAP[saveStripped];
+
+    return saveStripped;
   }
 
   // ========= MAIN =========
   (async function () {
     const params = new URLSearchParams(location.search);
-    const sid = params.get('session_id'); // Stripe sends ?session_id=...
+    const sid = params.get('session_id'); // Stripe adds this on success_url
     const btn = document.querySelector('a.btn');
 
-    // Start with button disabled until we know the target
+    // Keep your button, but disable until ready
     if (btn) {
       btn.style.pointerEvents = 'none';
       btn.style.opacity = '0.5';
+      btn.setAttribute('aria-disabled', 'true');
     }
 
+    // Optional: small status line under the button (handy for testing)
+    const status = document.createElement('div');
+    status.style.marginTop = '10px';
+    status.style.color = '#a7b7af';
+    status.style.fontSize = '13px';
+    document.body.appendChild(status);
+
     if (!sid) {
-      // Fallback: allow the user to open the base form
+      status.textContent = 'No session_id found. Button goes to base form.';
       if (btn) {
         btn.href = BASE_TALLY;
         btn.style.pointerEvents = 'auto';
         btn.style.opacity = '1';
+        btn.removeAttribute('aria-disabled');
       }
       return;
     }
 
     try {
-      // Ask our API what was purchased
+      // Ask our API what was purchased (names + qty)
       const res = await fetch(`/api/verify-session?id=${encodeURIComponent(sid)}`);
+      if (!res.ok) throw new Error(`verify-session HTTP ${res.status}`);
       const data = await res.json();
-      if (!data.items || !Array.isArray(data.items)) throw new Error('No items found');
+
+      if (!data.items || !Array.isArray(data.items) || data.items.length === 0) {
+        throw new Error('No items returned from verify-session');
+      }
 
       // Normalize names & optionally expand packages
       let names = [];
@@ -204,42 +225,42 @@
         let n = normalizeName(it.name);
         if (!n) continue;
 
-        if (PACKAGE_EXPANSIONS[n]) {
-          names.push(...PACKAGE_EXPANSIONS[n]);
-        } else {
-          names.push(n);
-        }
+        // If it’s a package and you want expansion, add components
+        if (PACKAGE_EXPANSIONS[n]) names.push(...PACKAGE_EXPANSIONS[n]);
+        else names.push(n);
       }
       names = uniq(names);
 
-      // Build Tally URL (single vs multiple)
-      let toUrl;
-      if (names.length <= 1) {
-        const single = names[0] || '';
-        toUrl = single ? `${BASE_TALLY}?service=${encodeURIComponent(single)}`
-                       : BASE_TALLY;
-      } else {
+      // Build Tally URL
+      let toUrl = BASE_TALLY;
+      if (names.length === 1) {
+        toUrl = `${BASE_TALLY}?service=${encodeURIComponent(names[0])}`;
+      } else if (names.length > 1) {
         toUrl = `${BASE_TALLY}?services=${encodeURIComponent(names.join(','))}`;
       }
 
-      // Enable the existing button and point it to the correct Tally link
+      // Show what we detected and enable the button
+      status.innerHTML = names.length
+        ? `Detected purchase: <strong>${names.join(', ')}</strong>.`
+        : 'Purchase confirmed.';
+
       if (btn) {
         btn.href = toUrl;
         btn.style.pointerEvents = 'auto';
         btn.style.opacity = '1';
+        btn.removeAttribute('aria-disabled');
       }
 
-      // No auto-redirect — user will click when ready
-      console.log('Stripe items:', data.items);
-      console.log('Normalized names:', names, '→ Tally URL:', toUrl);
+      // **No auto-redirect** — user clicks when ready
 
-    } catch (e) {
-      console.error(e);
-      // Graceful fallback: base form still works
+    } catch (err) {
+      console.error('success page error:', err);
+      status.textContent = 'Could not detect items. Button goes to base form.';
       if (btn) {
-        btn.href = BASE_TALLY;
+        btn.href = BASE_TALLY; // safe fallback
         btn.style.pointerEvents = 'auto';
         btn.style.opacity = '1';
+        btn.removeAttribute('aria-disabled');
       }
     }
   })();
