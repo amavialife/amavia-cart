@@ -2,269 +2,195 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Payment Confirmed · amavia</title>
 <style>
-  body {
-    background-color: #0d2e22;
-    color: #e7efe9;
-    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
-    padding: 20px;
-    overflow: hidden;
+  :root{
+    --bg:#0d2e22;
+    --text:#e7efe9;
+    --muted:#a7b7af;
+    --gold:#eed558;
   }
 
-  /* 🌿 Leaf watermark */
-  body::before {
-    content: "🌿";
-    position: absolute;
-    font-size: 320px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-20deg);
-    color: rgba(154, 208, 181, 0.05);
-    filter: blur(1px);
-    user-select: none;
-    pointer-events: none;
+  /* Page */
+  html,body{height:100%}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    margin:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:24px;
+    overflow-x:hidden;
   }
 
-  /* ✅ Animated checkmark circle */
-  .checkmark {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: inline-block;
-    border: 4px solid #eed558;
-    position: relative;
-    box-shadow: 0 0 20px rgba(238,213,88,0.25);
-    margin-bottom: 24px;
-    animation: pop 0.4s ease-out;
+  /* Watermark */
+  body::before{
+    content:"🌿";
+    position:fixed;
+    inset:0;
+    margin:auto;
+    font-size:360px;
+    color:rgba(154,208,181,0.06);
+    filter:blur(1px);
+    transform:rotate(-18deg);
+    pointer-events:none;
+    user-select:none;
   }
 
-  .checkmark::after {
-    content: '';
-    position: absolute;
-    left: 22px;
-    top: 38px;
-    width: 20px;
-    height: 40px;
-    border-right: 4px solid #eed558;
-    border-bottom: 4px solid #eed558;
-    transform: rotate(45deg) scale(0);
-    transform-origin: center;
-    animation: draw 0.5s 0.3s ease-out forwards;
+  /* Content wrapper */
+  .wrap{
+    position:relative;
+    z-index:1;
+    max-width:720px;
+    width:100%;
   }
 
-  @keyframes pop {
-    0% { transform: scale(0.5); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+  /* Centered animated checkmark */
+  .checkmark{
+    width:90px;height:90px;border-radius:50%;
+    border:4px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 24px auto;
+    box-shadow:0 0 25px rgba(238,213,88,0.30);
+    animation:pop .4s ease-out;
   }
-
-  @keyframes draw {
-    to { transform: rotate(45deg) scale(1); }
+  .checkmark::after{
+    content:"";
+    width:26px;height:46px;
+    border-right:4px solid var(--gold);
+    border-bottom:4px solid var(--gold);
+    transform:rotate(45deg) scale(0);
+    animation:draw .5s .3s ease-out forwards;
   }
+  @keyframes pop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
+  @keyframes draw{to{transform:rotate(45deg) scale(1)}}
 
-  h1 {
-    color: #eed558;
-    font-size: 1.9em;
-    margin-bottom: 0.4em;
-    letter-spacing: 0.5px;
+  h1{
+    color:var(--gold);
+    font-size:clamp(1.6rem,2.2vw,2.1rem);
+    letter-spacing:.4px;
+    margin:0 0 .5rem 0;
   }
+  p{line-height:1.6;max-width:52ch;margin:0 auto 10px auto}
+  .muted{color:var(--muted)}
+  .tm{font-size:.7em;vertical-align:super}
 
-  p {
-    max-width: 420px;
-    line-height: 1.6;
-    color: #e7efe9;
+  /* Button */
+  .btn{
+    display:inline-block;
+    background:var(--gold);
+    color:var(--bg);
+    text-decoration:none;
+    font-weight:700;
+    padding:14px 34px;
+    border-radius:10px;
+    margin:22px 0 10px 0;
+    transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+    box-shadow:0 8px 24px rgba(238,213,88,.18);
   }
+  .btn:hover{transform:translateY(-2px);background:#f1e47a}
 
-  a.btn {
-    display: inline-block;
-    background: #eed558;
-    color: #0d2e22;
-    text-decoration: none;
-    font-weight: 600;
-    padding: 14px 34px;
-    border-radius: 8px;
-    margin-top: 28px;
-    transition: all 0.25s ease;
-  }
+  /* Detected purchase */
+  .detected{margin-top:8px;font-size:.95rem;color:var(--muted)}
 
-  a.btn:hover {
-    background: #f1e47a;
-    transform: translateY(-2px);
-  }
-
-  footer {
-    position: absolute;
-    bottom: 20px;
-    font-size: 13px;
-    color: #a7b7af;
-    letter-spacing: 0.04em;
+  /* Footer (single ™ only) */
+  footer{
+    margin-top:18px;
+    font-size:.85rem;
+    color:var(--muted);
+    letter-spacing:.04em;
   }
 </style>
 </head>
 <body>
+  <main class="wrap">
     <div class="checkmark"></div>
     <h1>Payment Confirmed</h1>
-    <p>Thank you for your purchase. We are honored that you have chosen <strong>amavia<span class="tm">™</span></strong> to help commemorate your loved one.</p>  
-    </p>Please take a moment to complete the family details form below — this helps our team begin preparing your order with care and accuracy.</p>
-    <a href="https://amavia.life/#writtenservicespaymentthankyou" class="btn" target="_blank" rel="noopener noreferrer">
-    Continue to Intake Form
+    <p>Thank you for your purchase. We are honored that you have chosen <strong>amavia<span class="tm">™</span></strong> to help commemorate your loved one.</p>
+    <p>Please take a moment to complete the family details form — this helps our team begin preparing your order with care and accuracy.</p>
+
+    <!-- This button’s link is updated by the script once we know the service(s) -->
+    <a id="intakeBtn" class="btn" href="https://tally.so/r/OD17oK" target="_blank" rel="noopener noreferrer">
+      Continue to Intake Form
     </a>
-    <footer>guided by love · amavia™<span class="tm">™</span></footer>
-  </div>
-  <script>
- // ========= CONFIG =========
-  const TALLY_FORM_ID = 'OD17oK';
-  const BASE_TALLY = `https://tally.so/r/${TALLY_FORM_ID}`;
 
-  // Map Stripe product names -> the labels your Tally logic expects
-  // (LEFT side must match your Stripe Product names EXACTLY)
-  const NAME_MAP = {
-    // Obituaries
-    'Basic Obituary': 'Basic Obituary',
-    'Premium Obituary': 'Premium Obituary',
-    'Legacy Obituary': 'Legacy Obituary',
+    <div id="detected" class="detected muted" aria-live="polite"></div>
 
-    // Announcement / Program / Eulogies / Letter
-    'Death Announcement': 'Death Announcement',
-    'Service Program': 'Service Program',
-    'Basic Eulogy': 'Basic Eulogy',
-    'Premium Eulogy': 'Premium Eulogy',
-    'Legacy Letter': 'Legacy Letter',
+    <footer>guided by love · amavia™</footer>
+  </main>
 
-    // Thank You Cards — normalize to one label
-    'Thank You Cards (10)': 'Thank You Cards',
-    'Thank You Cards (25)': 'Thank You Cards',
-    'Thank You Cards (50)': 'Thank You Cards',
+<script>
+/* ------------ Configure your Tally form once here ------------ */
+const TALLY_FORM_ID = 'OD17oK';
+const BASE_TALLY = `https://tally.so/r/${TALLY_FORM_ID}`;
 
-    // Packages — keep as package labels (or expand via PACKAGE_EXPANSIONS below)
-    'Essential Package (Save $50)': 'Essential Package',
-    'Complete Memorial Package (Save $150)': 'Complete Memorial Package',
-    'Legacy Package (Save $300)': 'Legacy Package',
-  };
+/* Helpers */
+const params = new URLSearchParams(location.search);
+const sessionId = params.get('session_id');
 
-  // If you want packages to EXPAND into their component services, list them here.
-  // (Optional) — uncomment and adjust to your real package contents.
-  const PACKAGE_EXPANSIONS = {
-    // 'Essential Package': ['Basic Obituary', 'Service Program'],
-    // 'Complete Memorial Package': ['Premium Obituary', 'Basic Eulogy', 'Service Program', 'Thank You Cards', 'Death Announcement'],
-    // 'Legacy Package': ['Legacy Obituary', 'Premium Eulogy', 'Service Program', 'Thank You Cards'],
-  };
+function normalizeName(n){
+  if(!n) return '';
 
-  // ========= HELPERS =========
-  const uniq = (arr) => Array.from(new Set(arr));
+  const s = n.trim();
 
-  function normalizeName(raw) {
-    if (!raw) return '';
-    const t = raw.trim();
+  // Collapse Thank You Cards sizes into one label
+  if (/^thank you cards/i.test(s)) return 'Thank You Cards';
 
-    // Exact match first
-    if (NAME_MAP[t]) return NAME_MAP[t];
+  // Strip “(Save $xxx)” from packages
+  if (/legacy package/i.test(s))   return 'Legacy Package';
+  if (/complete.*package/i.test(s))return 'Complete Memorial Package';
+  if (/essential.*package/i.test(s))return 'Essential Package';
 
-    // Loose helpers
-    if (/^thank you cards/i.test(t)) return 'Thank You Cards';
-    if (/^service program/i.test(t)) return 'Service Program';
+  // Remove any trailing size/notes in parentheses if you ever add them
+  return s.replace(/\s*\([^)]*\)\s*$/,'').trim();
+}
 
-    // Strip “(Save $…)” if a package sneaks through with a different amount
-    const saveStripped = t.replace(/\s*\(Save \$\d+\)\s*$/i, '').trim();
-    if (NAME_MAP[saveStripped]) return NAME_MAP[saveStripped];
+async function init(){
+  const btn = document.getElementById('intakeBtn');
+  const detected = document.getElementById('detected');
 
-    return saveStripped;
+  try{
+    if(!sessionId) throw new Error('Missing session_id');
+
+    // Ask our API what was purchased (make sure your API expects `session_id`)
+    const res = await fetch(`/api/verify-session?session_id=${encodeURIComponent(sessionId)}`);
+    const data = await res.json();
+    if(!data || !Array.isArray(data.items)) throw new Error('Could not read purchased items');
+
+    // Clean, dedupe names
+    const names = [];
+    for(const it of data.items){
+      const cleaned = normalizeName(it.name);
+      if(cleaned && !names.includes(cleaned)) names.push(cleaned);
+    }
+
+    // Build the Tally link with hidden field(s)
+    let target = BASE_TALLY;
+    if(names.length === 1){
+      target = `${BASE_TALLY}?service=${encodeURIComponent(names[0])}`;
+    }else if(names.length > 1){
+      target = `${BASE_TALLY}?services=${encodeURIComponent(names.join(','))}`;
+    }
+
+    // Update button & detected text (no auto-redirect)
+    btn.href = target;
+    if(names.length){
+      detected.textContent = `Detected purchase: ${names.join(', ')}.`;
+    }else{
+      detected.textContent = '';
+    }
+  }catch(e){
+    console.error(e);
+    // Fall back: plain Tally link stays
+    detected.textContent = '';
   }
+}
 
-  // ========= MAIN =========
-  (async function () {
-    const params = new URLSearchParams(location.search);
-    const sid = params.get('session_id'); // Stripe adds this on success_url
-    const btn = document.querySelector('a.btn');
-
-    // Keep your button, but disable until ready
-    if (btn) {
-      btn.style.pointerEvents = 'none';
-      btn.style.opacity = '0.5';
-      btn.setAttribute('aria-disabled', 'true');
-    }
-
-    // Optional: small status line under the button (handy for testing)
-    const status = document.createElement('div');
-    status.style.marginTop = '10px';
-    status.style.color = '#a7b7af';
-    status.style.fontSize = '13px';
-    document.body.appendChild(status);
-
-    if (!sid) {
-      status.textContent = 'No session_id found. Button goes to base form.';
-      if (btn) {
-        btn.href = BASE_TALLY;
-        btn.style.pointerEvents = 'auto';
-        btn.style.opacity = '1';
-        btn.removeAttribute('aria-disabled');
-      }
-      return;
-    }
-
-    try {
-      // Ask our API what was purchased (names + qty)
-      const res = await fetch(`/api/verify-session?id=${encodeURIComponent(sid)}`);
-      if (!res.ok) throw new Error(`verify-session HTTP ${res.status}`);
-      const data = await res.json();
-
-      if (!data.items || !Array.isArray(data.items) || data.items.length === 0) {
-        throw new Error('No items returned from verify-session');
-      }
-
-      // Normalize names & optionally expand packages
-      let names = [];
-      for (const it of data.items) {
-        let n = normalizeName(it.name);
-        if (!n) continue;
-
-        // If it’s a package and you want expansion, add components
-        if (PACKAGE_EXPANSIONS[n]) names.push(...PACKAGE_EXPANSIONS[n]);
-        else names.push(n);
-      }
-      names = uniq(names);
-
-      // Build Tally URL
-      let toUrl = BASE_TALLY;
-      if (names.length === 1) {
-        toUrl = `${BASE_TALLY}?service=${encodeURIComponent(names[0])}`;
-      } else if (names.length > 1) {
-        toUrl = `${BASE_TALLY}?services=${encodeURIComponent(names.join(','))}`;
-      }
-
-      // Show what we detected and enable the button
-      status.innerHTML = names.length
-        ? `Detected purchase: <strong>${names.join(', ')}</strong>.`
-        : 'Purchase confirmed.';
-
-      if (btn) {
-        btn.href = toUrl;
-        btn.style.pointerEvents = 'auto';
-        btn.style.opacity = '1';
-        btn.removeAttribute('aria-disabled');
-      }
-
-      // **No auto-redirect** — user clicks when ready
-
-    } catch (err) {
-      console.error('success page error:', err);
-      status.textContent = 'Could not detect items. Button goes to base form.';
-      if (btn) {
-        btn.href = BASE_TALLY; // safe fallback
-        btn.style.pointerEvents = 'auto';
-        btn.style.opacity = '1';
-        btn.removeAttribute('aria-disabled');
-      }
-    }
-  })();
+init();
 </script>
 </body>
 </html>
-
